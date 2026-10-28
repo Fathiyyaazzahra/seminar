@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talk notebook: lattice QCD &amp; hot QCD</title>
+<meta name="description" content="Annotated notes, physics background and Q&amp;A from conference talks on lattice QCD, the QCD phase diagram and heavy-ion physics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']], macros: { tr: '\\operatorname{Tr}', Im: '\\operatorname{Im}', Re: '\\operatorname{Re}' } },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+:root{
+  --paper:#f7f8fa; --sheet:#ffffff; --ink:#18202c; --ink-2:#4a5568; --ink-3:#6b7585;
+  --rule:#dde2ea; --rule-2:#eef1f5;
+  --accent:#2446c7; --accent-wash:#eaeefc;
+  --est:#23704f; --est-wash:#e6f3ec;
+  --pre:#9a5b0b; --pre-wash:#fbf0de;
+  --spec:#6b3fb5; --spec-wash:#f1eafb;
+  --added:#3d5a80; --added-wash:#eef3f8;
+  --sans:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --side:290px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#11151c; --sheet:#171c25; --ink:#e4e8ef; --ink-2:#b3bccb; --ink-3:#8c96a8;
+    --rule:#2a3140; --rule-2:#202734;
+    --accent:#93a8ff; --accent-wash:#1f2a4d;
+    --est:#7fd1a8; --est-wash:#173327;
+    --pre:#f0b866; --pre-wash:#3a2a12;
+    --spec:#c4a6f5; --spec-wash:#2c2142;
+    --added:#9fb8d8; --added-wash:#1c2636;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#11151c; --sheet:#171c25; --ink:#e4e8ef; --ink-2:#b3bccb; --ink-3:#8c96a8;
+  --rule:#2a3140; --rule-2:#202734;
+  --accent:#93a8ff; --accent-wash:#1f2a4d;
+  --est:#7fd1a8; --est-wash:#173327;
+  --pre:#f0b866; --pre-wash:#3a2a12;
+  --spec:#c4a6f5; --spec-wash:#2c2142;
+  --added:#9fb8d8; --added-wash:#1c2636;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 1rem);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit}
+body{overflow-x:clip;margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.0625rem;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+img,svg{max-width:100%}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:var(--side) minmax(0,1fr);min-height:100%}
+.side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;border-right:1px solid var(--rule);background:var(--sheet);padding:1.4rem 1.1rem 2rem;font-family:var(--sans);font-size:.92rem;line-height:1.45}
+.main{min-width:0;padding:0 clamp(1rem,4vw,3.5rem) 5rem}
+.col{max-width:46rem;margin:0 auto}
+
+/* ---------- sidebar ---------- */
+.brand{font-family:var(--serif);font-weight:600;font-size:1.2rem;line-height:1.25;margin:0 0 .2rem}
+.brand-sub{color:var(--ink-3);margin:0 0 1.1rem;font-size:.85rem}
+.search{position:relative;margin-bottom:.9rem}
+.search input{width:100%;font:inherit;padding:.55rem .7rem .55rem 2rem;border:1px solid var(--rule);border-radius:8px;background:var(--paper);color:var(--ink)}
+.search svg{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3)}
+.search kbd{position:absolute;right:.55rem;top:50%;transform:translateY(-50%);font:inherit;font-size:.75rem;color:var(--ink-3);border:1px solid var(--rule);border-radius:4px;padding:0 .3rem}
+.filter-label{color:var(--ink-3);font-size:.8rem;margin:.9rem 0 .35rem}
+.chips{display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{font:inherit;font-size:.8rem;border:1px solid var(--rule);background:transparent;color:var(--ink-2);border-radius:999px;padding:.15rem .6rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--sheet)}
+.chip .dot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;margin-right:.35rem;vertical-align:.05rem}
+.toc{margin-top:1.4rem}
+.toc h2{font-family:var(--sans);font-size:.8rem;font-weight:600;color:var(--ink-3);margin:1.1rem 0 .3rem}
+.toc h2 a{color:inherit;text-decoration:none}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li a{display:block;color:var(--ink-2);text-decoration:none;padding:.32rem .55rem;border-radius:6px;border-left:2px solid transparent}
+.toc li a:hover{background:var(--rule-2);color:var(--ink)}
+.toc li a[aria-current="true"]{border-left-color:var(--accent);background:var(--accent-wash);color:var(--ink)}
+.toc li.hidden{display:none}
+.side-foot{margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:.4rem}
+.linkbtn{font:inherit;background:none;border:0;padding:0;color:var(--accent);cursor:pointer;text-align:left}
+.result-count{color:var(--ink-3);font-size:.82rem;margin-top:.5rem;min-height:1.2em}
+
+/* mobile top bar */
+.topbar{display:none}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:min(86vw,330px);z-index:40;transform:translateX(-105%);transition:transform .22s ease;padding-top:calc(env(safe-area-inset-top,0px) + 1.2rem);box-shadow:0 0 0 100vmax transparent}
+  .side.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.35)}
+  .topbar{display:flex;align-items:center;gap:.7rem;position:sticky;top:0;z-index:30;background:var(--sheet);border-bottom:1px solid var(--rule);padding:.6rem 1rem;padding-top:calc(env(safe-area-inset-top,0px) + .6rem);margin:0 calc(-1*clamp(1rem,4vw,3.5rem));font-family:var(--sans);font-size:.95rem}
+  .topbar button{font:inherit;border:1px solid var(--rule);background:var(--paper);color:var(--ink);border-radius:8px;padding:.35rem .7rem;cursor:pointer}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--sheet)}
+}
+
+/* ---------- intro ---------- */
+.hero{padding:clamp(2.5rem,7vw,4.5rem) 0 1.5rem;border-bottom:1px solid var(--rule)}
+.hero h1{font-weight:600;font-size:clamp(2rem,4.6vw,3rem);line-height:1.1;letter-spacing:-.01em;margin:0 0 .8rem}
+.hero p{color:var(--ink-2);margin:.5rem 0;max-width:40rem}
+.legend{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;margin-top:1.3rem;font-family:var(--sans);font-size:.85rem;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+
+/* ---------- conference ---------- */
+.conf{padding-top:3rem}
+.conf-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.3rem 1rem;border-bottom:2px solid var(--ink);padding-bottom:.4rem}
+.conf-head h2{font-size:1.55rem;font-weight:600;margin:0;line-height:1.2}
+.conf-head .when{font-family:var(--sans);color:var(--ink-2);font-size:.95rem}
+.conf-note{color:var(--ink-2);font-size:.95rem;margin:.6rem 0 0}
+
+/* ---------- talk ---------- */
+.talk{padding:2.6rem 0 1rem;border-bottom:1px solid var(--rule)}
+.talk.hidden,.conf.hidden{display:none}
+.talk-head h3{font-size:clamp(1.4rem,2.6vw,1.85rem);font-weight:600;line-height:1.22;margin:0 0 .6rem;letter-spacing:-.005em}
+.byline{font-family:var(--sans);font-size:.88rem;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:.35rem .9rem;align-items:center}
+.status{display:inline-flex;align-items:center;gap:.35rem;font-weight:600;padding:.1rem .55rem;border-radius:999px}
+.status::before{content:"";width:.5rem;height:.5rem;border-radius:50%;background:currentColor}
+.s-est{color:var(--est);background:var(--est-wash)}
+.s-pre{color:var(--pre);background:var(--pre-wash)}
+.s-spec{color:var(--spec);background:var(--spec-wash)}
+.speaker{font-weight:600;color:var(--ink)}
+.toc .who{display:block;font-size:.78rem;color:var(--ink-3);margin-top:.05rem}
+.tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.55rem}
+.tag{font-family:var(--sans);font-size:.78rem;color:var(--ink-3);border:1px solid var(--rule);border-radius:4px;padding:0 .4rem}
+.gist{font-size:1.1rem;line-height:1.65;margin:1.3rem 0 1.4rem;padding-left:1rem;border-left:3px solid var(--ink)}
+.talk h4{font-family:var(--sans);font-size:1.02rem;font-weight:600;margin:2rem 0 .4rem;color:var(--ink)}
+.talk p{margin:.7rem 0}
+.talk ul,.talk ol{padding-left:1.3rem}
+.talk li{margin:.25rem 0}
+
+/* equation blocks */
+.eq{margin:1.1rem 0;padding:.6rem 1rem;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;overflow-x:auto;overflow-y:hidden}
+.eq > .mjx-wrap,.eq > p{margin:0}
+.eq figcaption{font-family:var(--sans);font-size:.85rem;color:var(--ink-2);border-top:1px dashed var(--rule);margin-top:.5rem;padding-top:.45rem;line-height:1.5}
+mjx-container[display="true"]{margin:.5em 0 !important}
+
+/* annotation boxes */
+.box{margin:1.3rem 0;padding:.85rem 1.05rem;border-radius:6px;font-size:.98rem}
+.box > :first-child{margin-top:0}.box > :last-child{margin-bottom:0}
+.box-label{display:block;font-family:var(--sans);font-size:.8rem;font-weight:600;margin-bottom:.25rem}
+.box.added{background:var(--added-wash);border-left:3px solid var(--added)}
+.box.added .box-label{color:var(--added)}
+.box.caveat{background:var(--pre-wash);border-left:3px solid var(--pre)}
+.box.caveat .box-label{color:var(--pre)}
+.box.spec{background:var(--spec-wash);border-left:3px solid var(--spec)}
+.box.spec .box-label{color:var(--spec)}
+.box.take{background:var(--est-wash);border-left:3px solid var(--est)}
+.box.take .box-label{color:var(--est)}
+
+/* tables */
+.tbl{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;font-family:var(--sans);font-size:.9rem;min-width:100%}
+th,td{text-align:left;padding:.4rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;color:var(--ink-2);border-bottom:1.5px solid var(--ink-3)}
+td.num{font-variant-numeric:tabular-nums}
+
+/* steps */
+.steps{counter-reset:s;list-style:none;padding:0 !important;margin:1rem 0;display:grid;gap:.4rem}
+.steps li{counter-increment:s;display:grid;grid-template-columns:1.8rem 1fr;gap:.5rem;align-items:baseline;font-size:.98rem}
+.steps li::before{content:counter(s);font-family:var(--sans);font-size:.8rem;font-weight:600;color:var(--sheet);background:var(--ink);width:1.4rem;height:1.4rem;border-radius:50%;display:grid;place-items:center}
+
+/* diagrams */
+figure.diagram{margin:1.4rem 0;padding:.8rem;background:var(--sheet);border:1px solid var(--rule);border-radius:6px}
+figure.diagram > svg{display:block;width:100%;height:auto;font-family:var(--sans)}
+figure.diagram figcaption{font-family:var(--sans);font-size:.85rem;color:var(--ink-2);margin-top:.5rem;line-height:1.5}
+.d-ink{stroke:var(--ink);fill:none}.d-ink2{stroke:var(--ink-3);fill:none}
+.d-acc{stroke:var(--accent);fill:none}.d-spec{stroke:var(--spec);fill:none}.d-pre{stroke:var(--pre);fill:none}
+.d-txt{fill:var(--ink-2);font-size:12px}.d-txt-s{fill:var(--ink-3);font-size:11px}
+.d-fill-acc{fill:var(--accent-wash)}.d-fill-spec{fill:var(--spec-wash)}.d-fill-pre{fill:var(--pre-wash)}.d-fill-est{fill:var(--est-wash)}
+
+/* Q&A */
+.qa{margin:2rem 0 .5rem;border-top:1px solid var(--rule)}
+.qa > h4{margin-top:1.3rem}
+.qa details{border-bottom:1px solid var(--rule-2)}
+.qa summary{cursor:pointer;padding:.65rem 0;font-weight:600;list-style:none;display:grid;grid-template-columns:1.2rem 1fr;gap:.4rem;font-size:1rem}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary::before{content:"+";font-family:var(--sans);color:var(--ink-3);transition:transform .15s}
+.qa details[open] summary::before{content:"−"}
+.qa details > div{padding:0 0 .8rem 1.6rem;color:var(--ink-2)}
+.qa details > div p{margin:.3rem 0}
+.refs{font-family:var(--sans);font-size:.86rem;color:var(--ink-2);margin:1.4rem 0 1rem}
+.refs strong{color:var(--ink);font-weight:600}
+.refs ul{margin:.3rem 0 0;padding-left:1.1rem}
+
+.empty{display:none;padding:3rem 0;font-family:var(--sans);color:var(--ink-2)}
+.empty.show{display:block}
+.howto{padding:3rem 0 0;font-family:var(--sans);font-size:.92rem;color:var(--ink-2)}
+.howto summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.howto pre{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:1rem;overflow-x:auto;font-size:.8rem;line-height:1.5;color:var(--ink)}
+.howto code{font-size:.85em}
+footer.foot{margin-top:3rem;font-family:var(--sans);font-size:.82rem;color:var(--ink-3)}
+
+@media print{
+  .side,.topbar,.howto{display:none !important}
+  .shell{display:block}.main{padding:0}
+  .talk{break-inside:auto;border:0}
+  .qa details > div{display:block !important}
+  body{background:#fff;color:#000;font-size:11pt}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contents and filters">
+  <p class="brand">Talk notebook</p>
+  <p class="brand-sub">Lattice QCD, the QCD phase diagram and heavy-ion physics</p>
+  <div class="search">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <input id="q" type="search" placeholder="Search notes" aria-label="Search notes" autocomplete="off">
+    <kbd aria-hidden="true">/</kbd>
+  </div>
+  <p class="filter-label">Status of the main claim</p>
+  <div class="chips" id="statusChips"></div>
+  <p class="filter-label">Topic</p>
+  <div class="chips" id="tagChips"></div>
+  <p class="result-count" id="count" aria-live="polite"></p>
+  <nav class="toc" id="toc" aria-label="Talks"></nav>
+  <div class="side-foot">
+    <button class="linkbtn" id="expandAll" type="button">Open all Q&amp;A</button>
+    <button class="linkbtn" id="clearFilters" type="button">Clear search and filters</button>
+  </div>
+</aside>
+
+<main class="main" id="main">
+<div class="topbar"><button type="button" id="openSide" aria-controls="side" aria-expanded="false">Contents</button><span>Talk notebook</span></div>
+<div class="col">
+
+<header class="hero">
+  <h1>Notes from talks on lattice and hot QCD</h1>
+  <p>Each entry separates what the speaker presented from the physics background added afterwards, so the notes can be read on their own without blurring the two.</p>
+  <p>Titles and speakers for the NFQCD 2026 talks follow the official programme; the two CCP talks still carry descriptive working titles. Equations in “Background” boxes are standard results added for context, not quotes.</p>
+  <div class="legend" aria-label="Status legend">
+    <span><span class="status s-est">Reported</span> result presented as established by the speaker</span>
+    <span><span class="status s-pre">Preliminary</span> work in progress or coarse lattices</span>
+    <span><span class="status s-spec">Speculative</span> proposal or contested claim</span>
+  </div>
+</header>
+
+<!-- ===================================================================
+     CONFERENCE: CCP 2026
+     =================================================================== -->
+<section class="conf" id="ccp2026" data-conf-title="CCP 2026, South Korea" data-conf-short="CCP 2026">
+  <div class="conf-head"><h2>CCP 2026, South Korea</h2><span class="when">4–9 August 2026</span></div>
+  <p class="conf-note">Conference on Computational Physics. The exact day of each talk was not recorded, so the conference window is shown.</p>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="gauge-ml" data-short="ML for gauge fixing and Dirac traces" data-status="est" data-tags="Lattice methods,Machine learning">
+  <header class="talk-head">
+    <h3>Machine learning for lattice gauge fixing and expensive fermionic observables</h3>
+    <div class="byline"><span class="status s-est">Reported</span><time datetime="2026-08">4–9 Aug 2026</time><span>CCP 2026</span></div>
+    <div class="tags"><span class="tag">Landau gauge</span><span class="tag">Wilson lines</span><span class="tag">Hutchinson trace</span><span class="tag">Bias correction</span></div>
+  </header>
+
+  <p class="gist">Two independent uses of machine learning, each designed so the network can only speed things up, never change the answer: a gauge-covariant network gives conventional gauge fixing a head start, and a cheap observable predicts expensive Dirac traces with an exact correction for regression bias.</p>
+
+  <h4>Why gauge fixing is slow</h4>
+  <p>Gauge-equivalent configurations describe the same physics, but propagators and other gauge-dependent quantities require picking one representative per gauge orbit. On the lattice, Landau gauge is found by maximising</p>
+  <figure class="eq">
+    \[F_U[g]=\frac{1}{4N_cV}\sum_{x,\mu}\Re\tr\!\left[g(x)\,U_\mu(x)\,g^\dagger(x+\hat\mu)\right],\qquad U^{g}_\mu(x)=g(x)U_\mu(x)g^\dagger(x+\hat\mu).\]
+    <figcaption>At a stationary point the lattice divergence of \(A_\mu\) vanishes, the discrete version of \(\partial_\mu A_\mu=0\). Convergence is usually monitored with \(\theta=\frac1V\sum_x\tr[\Delta(x)\Delta^\dagger(x)]\), where \(\Delta(x)=\sum_\mu[A_\mu(x)-A_\mu(x-\hat\mu)]\).</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Background (added)</span>
+    <p>Standard algorithms (relaxation, overrelaxation) update one site at a time, so information spreads diffusively. The slowest modes are long wavelength, and the number of sweeps grows roughly like \(L^2\): this is critical slowing down. Fourier acceleration attacks it by preconditioning in momentum space. The ML approach is another kind of preconditioner, one that learns a good global starting transformation.</p>
+  </div>
+
+  <h4>The ML preconditioner</h4>
+  <ol class="steps">
+    <li>Feed the original links \(U_\mu(x)\) to the network.</li>
+    <li>The network outputs a gauge transformation \(g(x)\); apply it to get \(U^{g}\), already close to Landau gauge.</li>
+    <li>Finish with the conventional iterative algorithm. The final gauge condition is enforced by this step, so network errors cost iterations, not correctness.</li>
+  </ol>
+  <p>The network is built from Wilson lines, products of links along paths of several lattice spacings. Because a Wilson line transforms only at its endpoints, combining them keeps the network gauge covariant while letting each layer see beyond nearest neighbours. Shallow networks with longer Wilson lines and deeper networks with shorter ones were compared; both enlarge the receptive field.</p>
+  <div class="box added"><span class="box-label">Why covariance matters (added)</span>
+    <p>If the input is gauge transformed, \(U\to U^{h}\), the correct output must become \(g\,h^\dagger\) so that \((U^h)^{g h^\dagger}=U^{g}\). A network that respects this cannot “memorise” a gauge, which is the underlying reason the trained model generalises.</p>
+  </div>
+  <p>Both diagnostics, the value of \(F_U\) and the violation \(\theta\), converged in fewer iterations than with the conventional algorithm alone.</p>
+  <div class="box take"><span class="box-label">Main result</span>
+    <p>A model trained on a small lattice transferred to a substantially larger volume and still reduced the iteration count. The network learns a translation-equivariant local rule, not a per-site answer, so it is volume independent by construction.</p>
+  </div>
+
+  <h4>Predicting high powers of the inverse Dirac operator</h4>
+  <p>Fluctuations of the chiral condensate near a transition need derivatives of \(\ln\det M\) with respect to the quark mass, and each derivative brings another power of \(M^{-1}\):</p>
+  <figure class="eq">
+    \[\partial_m\ln\det M=\tr M^{-1},\quad \partial_m^2\ln\det M=-\tr M^{-2},\quad \partial_m^3\ln\det M=2\tr M^{-3},\quad \partial_m^4\ln\det M=-6\tr M^{-4}.\]
+    <figcaption>Higher cumulants (susceptibility, skewness, kurtosis of \(\bar\psi\psi\)) combine these traces with products of lower ones. This is why \(\tr M^{-2},\ldots,\tr M^{-4}\) appear.</figcaption>
+  </figure>
+  <p>The matrix has dimension of order \(10^7\)–\(10^9\), so traces are estimated stochastically with Hutchinson’s method:</p>
+  <figure class="eq">
+    \[\tr M^{-n}\approx\frac1{N_\eta}\sum_{i=1}^{N_\eta}\eta_i^\dagger M^{-n}\eta_i,\qquad \langle\eta\,\eta^\dagger\rangle_{\text{noise}}=\mathbb 1.\]
+    <figcaption>Each noise vector needs \(n\) linear solves for \(\tr M^{-n}\). The noise error comes from off-diagonal elements and shrinks only as \(1/\sqrt{N_\eta}\).</figcaption>
+  </figure>
+  <p>The speaker trained a gradient-boosted decision-tree regressor \(f_\theta\) mapping the cheap \(X=\tr M^{-1}\) to the expensive \(Y=\tr M^{-n}\). Configurations were split into a labelled set (where \(Y\) is computed exactly) and an unlabelled set; the labelled set was split again into training and bias-correction subsets.</p>
+  <figure class="eq">
+    \[\widehat{\langle Y\rangle}=\underbrace{\frac1{N_U}\sum_{i\in U}f_\theta(X_i)}_{\text{prediction}}+\underbrace{\frac1{N_{BC}}\sum_{j\in BC}\big[Y_j-f_\theta(X_j)\big]}_{\text{bias correction}}\]
+    <figcaption>The estimator is unbiased for any \(f_\theta\), however poor, because the correction term measures the average error on data the model never saw. The model quality only sets the variance, roughly \(\operatorname{Var}f/N_U+\operatorname{Var}(Y-f)/N_{BC}\). This is the same logic as a control variate.</figcaption>
+  </figure>
+  <p>The method was tested on means, variances and higher-order quantities near the transition, and reproduced directly measured distributions over a large part of parameter space with only a small labelled fraction.</p>
+  <div class="box caveat"><span class="box-label">What to check</span>
+    <p>For nonlinear quantities such as a susceptibility or a Binder ratio, the bias correction must be applied to the moments that enter them, and errors should be propagated with a jackknife over the full chain including the labelled/unlabelled split. The honest benchmark is total cost at fixed final error.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>How does this compare with other fast estimators?</summary><div><p>The speaker agreed that the right comparison is at equal accuracy and equal cost. The ML step could also sit on top of an existing approximation (for example deflation or a truncated expansion), predicting only the residual instead of replacing the method.</p></div></details>
+    <details><summary>Does the gauge-fixing network still work when correlations extend over much longer distances?</summary><div><p>Not yet tested in severe cases. Longer Wilson lines or a deeper network would enlarge the receptive field.</p></div></details>
+    <details><summary>Could a Transformer or attention mechanism help?</summary><div><p>Plausibly: attention links distant sites directly instead of passing information layer by layer. To stay gauge covariant, the attention weights must be built from gauge-invariant quantities and the values parallel transported with Wilson lines between the sites being connected.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Davies et al. (1988), Fourier-accelerated gauge fixing</li><li>Hutchinson (1989), stochastic trace estimator</li><li>Yoon, Bhattacharya, Gupta (2019), ML prediction with bias correction for lattice observables</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="gradient-flow" data-short="Gradient flow: PDFs, sigma terms, qCEDM" data-status="est" data-tags="Lattice methods,Hadron structure,Renormalization,BSM">
+  <header class="talk-head">
+    <h3>Gradient flow for renormalization: PDF moments, sigma terms and the quark chromo-EDM</h3>
+    <div class="byline"><span class="status s-est">Reported</span><time datetime="2026-08">4–9 Aug 2026</time><span>CCP 2026</span></div>
+    <div class="tags"><span class="tag">Gradient flow</span><span class="tag">Pion PDF</span><span class="tag">Operator mixing</span><span class="tag">Neutron EDM</span></div>
+  </header>
+
+  <p class="gist">Flowed fields are smooth on a scale \(\sqrt{8t}\) that is physical, not tied to the lattice spacing. That single fact turns three hard lattice problems (high PDF moments, disconnected sigma terms, power-divergent mixing of the chromo-EDM) into continuum limits followed by perturbative matching.</p>
+
+  <h4>What the flow does</h4>
+  <figure class="eq">
+    \[\partial_t B_\mu(t,x)=D_\nu G_{\nu\mu}(t,x),\qquad B_\mu(0,x)=A_\mu(x);\qquad \partial_t\chi=D_\mu D_\mu\chi,\qquad \chi(0,x)=\psi(x).\]
+    <figcaption>To leading order \(\partial_tB_\mu=\partial^2B_\mu\), a heat equation. Its kernel is a Gaussian with \(\langle x^2\rangle=2dt=8t\) in \(d=4\), hence the smoothing radius \(\sqrt{8t}\).</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Background (added)</span>
+    <p>Lüscher showed that composite operators of the flowed gauge field at \(t>0\) are finite without renormalization. Flowed fermions need exactly one extra factor, a wave-function normalization \(Z_\chi\) common to all fermion operators. Near \(t\to0\) a flowed operator is related to renormalized ones by the small-flow-time expansion</p>
+    \[\mathcal O_i(t)=\sum_j c_{ij}(t,\mu)\,\mathcal O_j^{R}(\mu)+O(t),\]
+    <p>with coefficients \(c_{ij}\) computable in perturbation theory when \(\sqrt{8t}\) is small compared with \(1/\Lambda_{\rm QCD}\).</p>
+  </div>
+
+  <h4>Higher moments of parton distributions</h4>
+  <p>Mellin moments of a PDF equal forward matrix elements of local twist-2 operators with one more derivative than the power of \(x\):</p>
+  <figure class="eq">
+    \[\langle x^n\rangle=\int_{-1}^{1}\!dx\,x^n q(x,\mu),\qquad \langle p|\,\bar q\,\gamma^{\{\mu_0}iD^{\mu_1}\cdots iD^{\mu_n\}}q\,|p\rangle-\text{traces}=2\langle x^n\rangle\,p^{\mu_0}\cdots p^{\mu_n}.\]
+    <figcaption>Braces denote symmetrization; removing traces makes the operator belong to a definite representation of the Lorentz group.</figcaption>
+  </figure>
+  <p>On a hypercubic lattice the rotation group shrinks to \(H(4)\). From \(\langle x^3\rangle\) on, no \(H(4)\) representation isolates the twist-2 operator from lower-dimensional ones, so mixing comes with powers \(1/a^k\) that diverge in the continuum limit. This is why direct lattice calculations stopped around \(\langle x^2\rangle\)–\(\langle x^3\rangle\).</p>
+  <p>Flow solves this by changing the order of limits. At fixed flow time the flowed operator has a continuum limit with full \(O(4)\) symmetry restored, and in the continuum there is no lower-dimensional operator with the same quantum numbers. The speaker used this to reach the fifth or sixth pion-PDF moment, depending on counting convention.</p>
+  <ol class="steps">
+    <li>Compute flowed three-point functions and form ratios at several \(a\) and \(t\).</li>
+    <li>At each fixed \(t\) in physical units, extrapolate \(a\to0\).</li>
+    <li>Apply the perturbative matching \(c(t,\mu)\) to convert to \(\overline{\rm MS}\).</li>
+    <li>Extrapolate \(t\to0\) to remove the \(O(t)\) terms.</li>
+  </ol>
+  <div class="box caveat"><span class="box-label">The flow-time window</span>
+    <p>\(t\) must be large enough that \(\sqrt{8t}\gg a\) (so lattice artefacts are small) and small enough that \(\sqrt{8t}\ll1/\Lambda_{\rm QCD}\) (so the operator is still local and perturbative matching converges). Higher moments have more derivatives and are more sensitive to over-smoothing, so the usable window narrows as \(n\) grows.</p>
+  </div>
+  <p>With several moments, the \(x\)-dependence of the PDF can be constrained and compared with global fits.</p>
+
+  <h4>Strange sigma terms</h4>
+  <figure class="eq">
+    \[\sigma_{\pi s}=m_s\,\langle\pi|\bar ss|\pi\rangle.\]
+    <figcaption>The product \(m_q\bar qq\) is renormalization-group invariant when chiral symmetry is preserved, which is why ratios of flowed quantities can cancel renormalization factors cleanly.</figcaption>
+  </figure>
+  <p>A pion has no valence strange quarks, so \(\bar ss\) contributes only through a disconnected quark loop correlated with the pion two-point function. These loops are expensive and noisy. A decision-tree model predicted the expensive loop data from a small number of full calculations, in the same bias-corrected spirit as the previous talk. Ensembles used pion masses of roughly 400–600 MeV; lighter masses are the next step.</p>
+
+  <h4>The quark chromo-electric dipole moment</h4>
+  <figure class="eq">
+    \[\mathcal O_{\rm qCEDM}=\bar q\,\sigma_{\mu\nu}\gamma_5\,G_{\mu\nu}\,q\quad(\text{dimension }5),\qquad P=\bar q\gamma_5 q\quad(\text{dimension }3).\]
+    <figcaption>The qCEDM is CP violating and contributes to the neutron EDM, bounded experimentally at \(|d_n|<1.8\times10^{-26}\,e\,\)cm (PSI, 2020).</figcaption>
+  </figure>
+  <p>On the lattice, \(\mathcal O_{\rm qCEDM}\) mixes with \(P\) with a coefficient \(\sim1/a^2\): two powers of the cutoff to make up the dimension gap. Under flow this power divergence becomes a calculable \(1/t\) dependence. Ratios of flowed \(\mathcal O_{\rm qCEDM}\) and \(P\) correlators, studied as functions of \(t\), isolate the mixing coefficient so it can be subtracted.</p>
+
+  <h4>Determining \(Z_\chi\) directly</h4>
+  <p>Earlier work used ratios precisely because \(Z_\chi\) was unknown. The new work fixes it in two schemes:</p>
+  <ul>
+    <li><strong>Ringed fields</strong> (Makino–Suzuki). Normalize the flowed field by its own vacuum expectation value, schematically \(\mathring\chi=\chi\big/\sqrt{\,t^2\langle\bar\chi\overleftrightarrow{\not\!D}\chi\rangle\,}\) up to constants, so that the normalization matches the free theory.</li>
+    <li><strong>Vector-current scheme.</strong> Fix \(Z_\chi\) from correlators of the conserved vector current, whose normalization is known.</li>
+  </ul>
+  <p>After matching, the two agree. Knowing \(Z_\chi\) means individual flowed matrix elements can be renormalized without designing a ratio for each one.</p>
+  <div class="box take"><span class="box-label">Overall message</span>
+    <p>Gradient flow is one framework for three problems: power-divergent mixing becomes a \(t\)-dependence you can fit, broken rotational symmetry is restored before matching, and a single factor \(Z_\chi\) handles all fermion normalizations.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>With \(Z_\chi\) known, can individual PDF moments be computed instead of ratios?</summary><div><p>Yes. That was the main motivation. It still requires the full continuum, matching and \(t\to0\) sequence.</p></div></details>
+    <details><summary>How do the ringed-field and current schemes differ?</summary><div><p>Ringed fields fix the normalization from a vacuum expectation value of a flowed fermion bilinear with a covariant derivative. The current scheme fixes it from vector-current correlators. Different systematics, so agreement after matching is a meaningful cross-check.</p></div></details>
+    <details><summary>Which pion masses were used for the sigma terms?</summary><div><p>Heavy: the lightest ensemble near 400 MeV, most of the analysis near 600 MeV. Lighter masses are planned.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Narayanan–Neuberger (2006); Lüscher (2010, 2013), gradient flow and flowed fermions</li><li>Makino–Suzuki (2014), ringed fermion fields</li><li>Shindler and collaborators, flow for CP-violating operators</li></ul></div>
+</article>
+</section>
+
+<!-- ===================================================================
+     CONFERENCE: New Frontier of QCD
+     =================================================================== -->
+<section class="conf" id="nfqcd2026" data-conf-title="New Frontiers in QCD 2026" data-conf-short="New Frontiers in QCD 2026">
+  <div class="conf-head"><h2>New Frontiers in QCD 2026 (NFQCD)</h2><span class="when">28 October 2026, afternoon</span></div>
+  <p class="conf-note">Panasonic Auditorium, Yukawa Hall, YITP, Kyoto University. Titles, speakers and times follow the official programme. Notes combine live transcription with the speakers’ slides where they were available (Philipsen, Wada, Pisarski).</p>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="chiral-transition" data-short="Chiral transition in many-flavour QCD" data-speaker="Owe Philipsen" data-status="est" data-tags="Phase diagram,Chiral symmetry,Conformal window,Lattice methods,Thermal spectral functions">
+  <header class="talk-head">
+    <h3>The chiral phase transition in many flavour QCD and onset of the conformal window</h3>
+    <div class="byline"><span class="status s-est">Reported</span><span class="speaker">Owe Philipsen</span><span>Goethe University Frankfurt</span><time datetime="2026-10-28T14:00">28 Oct, 14:00–14:45</time></div>
+    <div class="tags"><span class="tag">Columbia plot</span><span class="tag">Tricritical scaling</span><span class="tag">Bulk transition</span><span class="tag">Conformal hyperscaling</span><span class="tag">Thermoparticles</span></div>
+  </header>
+
+  <p class="gist">The first-order chiral transitions seen on coarse lattices shrink away as \(a\to0\). Mapping the transition in the bare parameter space \((\beta,am,N_f,N_\tau)\), the speaker’s group finds the massless transition second order for \(N_f=2\)–7, unchanged at imaginary chemical potential, and absent in the continuum for \(N_f=8\). That places the onset of the conformal window at \(7&lt;N_f^*&lt;8\). A final part argued that pion-like states survive above the crossover and that symmetry restoration is encoded in how Goldstone modes are damped.</p>
+
+  <h4>1. The Columbia plot, then and now</h4>
+  <div class="box added"><span class="box-label">Background: Pisarski–Wilczek 1984 (added)</span>
+    <p>For the order parameter \(\Phi\sim\bar q_Rq_L\), the anomaly term \(\det\Phi\) has degree \(N_f\). For \(N_f=2\) it is quadratic and leaves \(O(4)\); for \(N_f=3\) it is cubic and drives a first-order transition in mean field; for \(N_f\ge4\) the \(\epsilon\)-expansion finds no stable fixed point. This is the origin of the first-order corner at small masses in the textbook Columbia plot.</p>
+  </div>
+  <p>Coarse lattices or unimproved actions do show first-order transitions for \(N_f=2,3\). That region shrinks rapidly as \(a\to0\), and no first-order transition has been seen with improved staggered actions. The continuum picture the speaker presented (Cuteri, Philipsen, Sciarra 2021) has no lower-left first-order region at all.</p>
+  <figure class="diagram">
+    <svg viewBox="0 0 460 330" role="img" aria-labelledby="colT">
+      <title id="colT">Columbia plot in the continuum</title>
+      <rect x="110" y="20" width="300" height="270" class="d-fill-acc"/>
+      <rect x="110" y="20" width="300" height="270" class="d-ink2" stroke-width="1"/>
+      <path d="M110 290 L110 222 Q140 238 165 290 Z" fill="none" class="d-ink2" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="170" y="284" class="d-txt-s">1st order on coarse lattices only</text>
+      <path d="M410 20 L410 105 Q340 95 318 20 Z" class="d-fill-pre"/>
+      <path d="M410 105 Q340 95 318 20" class="d-acc" stroke-width="2"/>
+      <text x="350" y="50" class="d-txt">1st</text>
+      <text x="405" y="126" class="d-txt-s" text-anchor="end">Z₂ line</text><text x="405" y="140" class="d-txt-s" text-anchor="end">m<tspan baseline-shift="sub" font-size="8">π</tspan> ≈ 3.5–4 GeV</text>
+      <line x1="110" y1="290" x2="410" y2="20" class="d-ink2" stroke-width=".8" stroke-dasharray="4 4"/>
+      <text x="205" y="198" class="d-txt-s" transform="rotate(-42 205 198)">N<tspan baseline-shift="sub" font-size="8">f</tspan> = 3</text>
+      <line x1="110" y1="20" x2="110" y2="290" stroke="var(--spec)" stroke-width="4"/>
+      <text x="118" y="40" class="d-txt" fill="var(--spec)">O(4)?</text>
+      <text x="118" y="258" class="d-txt">?</text>
+      <circle cx="160" cy="105" r="5" fill="var(--accent)"/>
+      <text x="170" y="101" class="d-txt">physical point</text>
+      <text x="170" y="116" class="d-txt-s">T<tspan baseline-shift="sub" font-size="8">pc</tspan> = 156(3) MeV</text>
+      <text x="255" y="215" class="d-txt">crossover</text>
+      <text x="102" y="109" class="d-txt-s" text-anchor="end">T<tspan baseline-shift="sub" font-size="8">c</tspan>⁰ = 135(8)</text>
+      <text x="102" y="122" class="d-txt-s" text-anchor="end">MeV</text>
+      <text x="102" y="282" class="d-txt-s" text-anchor="end">98(6) MeV</text>
+      <text x="102" y="295" class="d-txt-s" text-anchor="end">(N<tspan baseline-shift="sub" font-size="8">f</tspan> = 3)</text>
+      <text x="260" y="315" class="d-txt" text-anchor="middle">m<tspan baseline-shift="sub" font-size="8">u,d</tspan>, 0 to ∞</text>
+      <text x="20" y="155" class="d-txt" text-anchor="middle" transform="rotate(-90 20 155)">m<tspan baseline-shift="sub" font-size="8">s</tspan>, 0 to ∞</text>
+    </svg>
+    <figcaption>The continuum Columbia plot as presented. Chiral-limit temperatures: \(T_c^0=135(8)\) MeV at physical \(m_s\) (HotQCD 2019) and \(T_c^0=98(6)\) MeV for \(N_f=3\) (HotQCD 2022). The heavy-quark \(Z_2\) boundary sits at \(m_\pi\approx3.5\)–4 GeV (Kaiser, Philipsen 2022). The dotted corner shows where first-order transitions appear on coarse lattices only. The universality class along \(m_{u,d}=0\), and at the \(U(3)_L\times U(3)_R\) origin, is still open.</figcaption>
+  </figure>
+
+  <h4>2. Method: transitions in bare parameter space</h4>
+  <figure class="eq">
+    \[B_n=\frac{\langle(\bar\psi\psi-\langle\bar\psi\psi\rangle)^n\rangle}{\langle(\bar\psi\psi-\langle\bar\psi\psi\rangle)^2\rangle^{n/2}},\qquad B_3(\beta_c)=0,\qquad B_4(\beta_c,am,N_\sigma)\approx1.604+c\,(am-am_c)\,N_\sigma^{1/0.6301}.\]
+    <figcaption>\(B_3=0\) (zero skewness) defines the pseudo-critical coupling \(\beta_c\). At \(\beta_c\), the kurtosis tends to 1 for a first-order transition, 3 for a crossover, and 1.604 at a 3D-Ising (\(Z_2\)) endpoint, approached with \(1/\nu=1/0.6301\). For staggered fermions the bare parameters are \(\beta,am,N_f,N_\tau\); the \(Z_2\) endpoints form a critical surface in that space.</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Why 1 and 3 (added)</span>
+    <p>A first-order transition at coexistence gives two equal, sharp peaks at \(\pm a\): then \(\langle x^4\rangle/\langle x^2\rangle^2=a^4/a^4=1\). A crossover gives a single Gaussian, whose kurtosis is 3. A critical endpoint has a universal non-Gaussian distribution in between.</p>
+  </div>
+
+  <h4>3. Where the first-order region ends</h4>
+  <p>As \(am\to0\) the \(Z_2\) lines bend into tricritical points. Tricritical scaling predicts \(am_c\propto(aT-aT^{\rm tric})^{5/2}\), so \((am_c)^{2/5}\) is linear in \(aT=1/N_\tau\). This was confirmed for staggered \(N_f=3\)–7 and, with \((am_{\rm PS})^{4/5}\) since \(m_{\rm PS}^2\propto m_q\), for \(O(a)\)-improved Wilson fermions with \(N_f=3\).</p>
+  <ul>
+    <li>The extrapolated tricritical points lie at \(aT^{\rm tric}\approx0.05\)–0.065, i.e. \(N_\tau^{\rm tric}\approx15\)–20 for \(N_f=5\)–7.</li>
+    <li>For finer lattices, \(N_\tau&gt;N_\tau^{\rm tric}\), the chiral-limit transition is second order. The first-order region is not analytically connected to the continuum.</li>
+    <li>Conclusion stated by the speaker: the QCD chiral transition is second order for \(N_f=2\)–7.</li>
+  </ul>
+  <p>Other actions support this. HotQCD’s HISQ study of \(N_f=3\) sees no first-order transition down to \(m_\pi\approx80\) MeV, and the magnetic equation of state scales like \(O(2)\), the symmetry remnant of staggered quarks at finite \(a\). Domain-wall \(N_f=3\) simulations find a crossover down to physical light-quark masses.</p>
+  <div class="box caveat"><span class="box-label">What the argument rests on</span>
+    <p>The conclusion depends on extrapolating \(am\to0\) with the tricritical form and on \(N_\tau^{\rm tric}\) being in the scaling regime. It fixes the order but not the universality class in the chiral limit (\(O(4)\), \(U(2)\times U(2)\) or something else), which remains open.</p>
+  </div>
+
+  <h4>4. Imaginary chemical potential</h4>
+  <p>Imaginary \(\mu\) has no sign problem. Repeating the Columbia-plot study at \(\mu=i\,0.81\,\pi T/3\) (D’Ambrosio, Fromm, Kaiser, Philipsen 2026) gives the same situation as \(\mu=0\). At the Roberge–Weiss value \(\mu=i\pi T/3\), stout-smeared staggered (Bonati et al. 2019) and HISQ (Bielefeld–Frankfurt 2022) studies see no first-order transition either. Dyson–Schwinger results agree.</p>
+  <div class="box added"><span class="box-label">Consequence for the critical point (from backup slides)</span>
+    <p>The chiral critical surface continues smoothly from imaginary to real \(\mu\). In the scenario of Stephanov, Rajagopal and Shuryak (1998), the QCD critical endpoint is the continuation of the light-quark \(Z_2\) line; if there is no first-order region at \(\mu=0\), that class of low-energy models is ruled out. A critical point at real \(\mu\) is not excluded, but it would require an additional critical surface.</p>
+  </div>
+
+  <h4>5. Non-lattice approaches</h4>
+  <div class="tbl"><table>
+    <thead><tr><th>Approach</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>LGW with \(\phi^6\), FRG flow (Fejős 2022; Fejős–Hatsuda 2024)</td><td>2nd order for \(N_f=2\)–4 if the anomaly is restored; always 2nd order for \(N_f&gt;5\)</td></tr>
+      <tr><td>LGW with higher powers of the ’t Hooft term, mean field (Pisarski–Rennecke 2024)</td><td>2nd order if the expectation value of a tower of operators vanishes</td></tr>
+      <tr><td>FRG and DSE applied to QCD (Braun et al. 2025; Bernhardt–Fischer 2023)</td><td>\(N_f=2\) is \(O(4)\); anomaly not restored</td></tr>
+      <tr><td>Numerical conformal bootstrap (Kousvos–Stergiou 2023)</td><td>A second-order fixed point exists for \(U(3)\times U(3)\)</td></tr>
+      <tr><td>Fractional ’t Hooft determinants (Hayashi–Tanizaki 2026)</td><td>See also the Pisarski talk below</td></tr>
+    </tbody>
+  </table></div>
+  <p>The speaker noted that the talks by Pisarski and Cherman argue that LGW analysis may not apply under certain conditions.</p>
+
+  <h4>6. Many flavours and the conformal window</h4>
+  <p>With the two-loop \(\beta\)-function \(\beta_0=11-\tfrac23N_f\), \(\beta_1=102-\tfrac{38}3N_f\), a Banks–Zaks fixed point \(g_*^2=-16\pi^2\beta_0/\beta_1\) appears for \(9\le N_f\le16\). It is trustworthy only near \(N_f=16\) (\(\alpha_*\approx0.04\)); at \(N_f=12\) it already sits at \(\alpha_*\approx0.75\). Below the onset \(N_f^*\), chiral symmetry is broken at \(T=0\) and restored at a thermal transition; inside the window the massless theory is conformal in the infrared and there is no thermal transition.</p>
+  <figure class="diagram">
+    <svg viewBox="0 0 460 220" role="img" aria-labelledby="cwT">
+      <title id="cwT">Chiral transition temperature versus number of flavours</title>
+      <line x1="50" y1="180" x2="430" y2="180" class="d-ink2"/>
+      <line x1="50" y1="180" x2="50" y2="20" class="d-ink2"/>
+      <path d="M60 40 Q150 70 210 140 Q240 175 270 180" class="d-acc" stroke-width="2.5"/>
+      <line x1="270" y1="180" x2="420" y2="180" stroke="var(--spec)" stroke-width="4"/>
+      <circle cx="270" cy="180" r="5" fill="var(--pre)"/>
+      <text x="135" y="65" class="d-txt">2nd order</text>
+      <text x="80" y="160" class="d-txt">⟨ψ̄ψ⟩ ≠ 0</text>
+      <text x="250" y="80" class="d-txt">⟨ψ̄ψ⟩ = 0</text>
+      <text x="345" y="170" class="d-txt" text-anchor="middle" fill="var(--spec)">conformal window</text>
+      <text x="270" y="198" class="d-txt-s" text-anchor="middle">N<tspan baseline-shift="sub" font-size="8">f</tspan>* (7–8?)</text>
+      <text x="420" y="198" class="d-txt-s" text-anchor="end">16.5</text>
+      <text x="430" y="212" class="d-txt-s" text-anchor="end">N<tspan baseline-shift="sub" font-size="8">f</tspan></text>
+      <text x="40" y="28" class="d-txt-s" text-anchor="end">T</text>
+    </svg>
+    <figcaption>Massless degenerate flavours, as sketched in the talk. The thermal transition temperature falls with \(N_f\) and reaches zero at \(N_f^*\), a quantum (tricritical) point at \(T=0\). FRG estimates (Braun–Gies) have \(T_\chi\) dropping from about 185 MeV at \(N_f=2\) to near zero around \(N_f\approx12\).</figcaption>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Estimate of \(N_f^*\)</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="num">12–14</td><td>Fodor et al. (2018)</td></tr>
+      <tr><td class="num">≈10–12</td><td>Braun–Gies (2011); Lombardo, Pallante, Deuzeman (2013)</td></tr>
+      <tr><td class="num">≈8–9</td><td>Hasenfratz et al. (2023)</td></tr>
+      <tr><td class="num">&lt; 7</td><td>Pastor-Gutiérrez (2026)</td></tr>
+      <tr><td class="num">7–8</td><td>This talk (Kaiser, Klinger, Philipsen, Schaible, in prep.)</td></tr>
+    </tbody>
+  </table></div>
+  <p>The motivations given: walking-technicolour models with \(N_f\to(N_f^*)^-\); “conformalisation” of dense matter suggested by neutron-star equations of state; and the conjectured IR-conformal “third phase” of Alexandru and Horváth (see the Horváth talk below).</p>
+  <p>The usual approach computes the \(\beta\)-function with \(m_q\to0\), \(a\to0\) and \(V,1/T\to\infty\). Here the strategy is different: follow how the thermal transition approaches the continuum. Three difficulties: the conformal window has no symmetry breaking at \(m=0,T=0\); \(m=0\) cannot be simulated; and \(T=0\) needs \(N_\tau=\infty\). Everything simulable has finite \(m\) and \(T\), with explicit breaking and a restoring transition at higher \(T\).</p>
+  <div class="box caveat"><span class="box-label">Obstacle: an unphysical bulk phase</span>
+    <p>At strong bare coupling (small \(\beta=6/g^2\)) there is a first-order bulk transition whose position does not depend on \(N_\tau\), so it is a lattice artefact. At large \(N_f\) it gets in the way because the thermal transition, \(T=1/(aN_\tau)\), is pushed to coarse lattices. Predicted in mean field (Miransky–Yamawaki 1997) and seen in simulations; one needs \(N_\tau&gt;8\) to separate the two.</p>
+  </div>
+  <ul>
+    <li><strong>\(N_f=6\) and 7:</strong> lines of fixed \(N_\tau\) (up to 22) extrapolate to a second-order transition at \(am=0\) at couplings that grow with \(N_\tau\). The continuum limit (\(a\to0\), \(\beta\to\infty\), \(N_\tau\to\infty\)) of the second-order transition exists.</li>
+    <li><strong>\(N_f=8\):</strong> the fixed-\(N_\tau\) lines for \(N_\tau=10\)–22 all converge to one bare coupling \(\beta_0\) at \(am=0\). The transition does not move toward weak coupling as \(N_\tau\) grows, so no chiral transition exists in the continuum.</li>
+  </ul>
+  <figure class="eq">
+    \[\beta_{pc}(am,N_\tau)=\beta_0+C\,N_\tau^{\,p}\,am,\qquad \beta_0\approx4.48,\quad C\approx0.16,\quad p\approx1.69\quad(\chi^2/\text{dof}=5.5/16).\]
+    <figcaption>Three parameters describe 19 data points for \(N_f=8\). The speaker read this as conformal hyperscaling \(T\sim m^{1/(1+\gamma_m^*)}\) with \(\gamma_m^*=p-1\approx0.69\).</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Why \(p=1+\gamma_m^*\) (added derivation)</span>
+    <p>In an IR-conformal theory the quark mass is the only infrared scale, so the transition temperature in lattice units obeys \(aT\propto(am)^{1/(1+\gamma_m^*)}\). With \(aT=1/N_\tau\) this gives \(am_{pc}\propto N_\tau^{-(1+\gamma_m^*)}\). At fixed \(\beta\) near \(\beta_0\), the fit gives \(am_{pc}=(\beta-\beta_0)/(C N_\tau^{\,p})\propto N_\tau^{-p}\). Comparing, \(p=1+\gamma_m^*\). In a QCD-like theory, instead, \(\beta_{pc}\) at fixed \(am\) would run to weak coupling logarithmically as \(N_\tau\) grows.</p>
+  </div>
+  <div class="box caveat"><span class="box-label">Open points</span>
+    <p>\(\gamma_m^*\approx0.69\) at \(N_f=8\) is a fitted effective exponent from bare-parameter data, and the result places \(N_f^*\) lower than most \(\beta\)-function studies (table above). Independent checks, for instance spectrum hyperscaling at \(N_f=8\), would make the case stronger.</p>
+  </div>
+
+  <h4>7. Thermoparticles and Goldstone modes</h4>
+  <p>Bros and Buchholz derived, from locality and the KMS condition alone, an exact representation of a thermal spectral function. It reduces to the Källén–Lehmann representation as \(T\to0\):</p>
+  <figure class="eq">
+    \[\rho_{\rm PS}(p_0,\vec p)=\int_0^\infty\!ds\int\!\frac{d^3\vec u}{(2\pi)^2}\,\epsilon(p_0)\,\delta\!\big(p_0^2-(\vec p-\vec u)^2-s\big)\,\widetilde D_\beta(\vec u,s),\qquad \widetilde D_\beta=\widetilde D_{m,\beta}(\vec u)\,\delta(s-m^2)+\widetilde D_{c,\beta}(\vec u,s).\]
+    <figcaption>The thermal spectral density \(\widetilde D_\beta\) splits into a thermoparticle part (a vacuum particle of mass \(m\) with a “damping factor”) and a continuum (multi-particle, collective, Landau damping). The damping factor broadens the peak; it dominates at asymptotic times. An alternative derivation is in Nair–Pisarski (2025).</figcaption>
+  </figure>
+  <figure class="eq">
+    \[C^s_{\rm PS}(z)=\frac12\int_0^\infty\!ds\int_{|z|}^\infty\!dR\,e^{-R\sqrt s}\,D_\beta(R,s),\qquad D_{m,\beta}(\vec x)=\alpha\,e^{-\gamma|\vec x|}\;\Rightarrow\;m_{\rm scr}=m+\gamma.\]
+    <figcaption>Spatial correlators determine the damping factor, and an exponential damping shifts the screening mass by \(\gamma\). Lorentz invariance at \(T=0\) requires \(\gamma\to0\).</figcaption>
+  </figure>
+  <p>Two-state fits (\(\pi,\pi^*\)) to lattice spatial pseudoscalar correlators (Rohrhofer et al.) at \(T=220\)–960 MeV give spectral functions with a vacuum threshold and a resonance-like peak for each state:</p>
+  <figure class="eq">
+    \[\rho_{\rm PS}(\omega,\vec p=0)=\epsilon(\omega)\sum_{i=\pi,\pi^*}\theta(\omega^2-m_i^2)\,\frac{4\alpha_i\gamma_i\sqrt{\omega^2-m_i^2}}{(\omega^2-m_i^2+\gamma_i^2)^2}.\]
+    <figcaption>The peaks widen and fade with temperature. The key test: these spectral functions predict the temporal correlator at \(T=220\) MeV, and the prediction matches the lattice data. A Breit–Wigner (perturbative plasmon) ansatz fits the spatial correlator equally well but fails the temporal one. The speaker’s conclusion: the pion persists above the chiral crossover.</figcaption>
+  </figure>
+  <p>Unlike a Breit–Wigner resonance, a thermoparticle is a thermally modified stable particle. Its propagator is frame dependent and has branch points at \(k_0=p_0\pm i\gamma\) rather than simple poles, with consequences for soft pions. A related analysis of kaons slightly below and above the crossover (Bala et al. 2024) shows the same broadening; in \(\phi^4\) theory, where there is no transition, the scalar only broadens collisionally.</p>
+  <p>In an \(O(2)\) scalar theory on the lattice (Lowdon, Philipsen 2025), a massless Goldstone thermoparticle dominates the correlator in both phases. Only its damping factor changes:</p>
+  <figure class="eq">
+    \[C_c(0,\vec x)=\frac{\coth(\pi|\vec x|/\beta)}{4\pi\beta|\vec x|}\,D^G_\beta(\vec x),\qquad D^G_\beta(\vec x)\approx\begin{cases}1+\dots&amp;N_\tau=8,16,32\ \ (\text{cold, broken})\\ e^{-\gamma|\vec x|}&amp;N_\tau=2,4,6\ \ (\text{hot, symmetric})\end{cases}\]
+    <figcaption>The screening mass of the Goldstone mode is zero in the broken phase and rises above \(T_c\); predicted temporal correlators again agree with the data. In this picture the transition is a medium effect encoded entirely in the damping factor.</figcaption>
+  </figure>
+  <div class="box spec"><span class="box-label">Proposition (speaker’s conjecture)</span>
+    <p>Going from \(O(2)\) to \(O(4)\), or from \(SU(2)_L\times SU(2)_R\) to \(SU(3)_L\times SU(3)_R\), changes only the number of Goldstone bosons, so the order of the transition stays the same. This was posed as an open question: is \(U(1)_A\) relevant for the order at all? The spectral reconstruction neglects the continuum part \(D_c\), which is justified only below scattering thresholds.</p>
+  </div>
+  <div class="box take"><span class="box-label">Conclusions as presented</span>
+    <p>Chiral transition second order up to the conformal window; order independent of imaginary chemical potential; conformal window starts at \(7&lt;N_f^*&lt;8\); symmetry breaking determined by the damping of Goldstone modes.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Does the absence of first-order behaviour establish \(O(4)\) criticality?</summary><div><p>No. The bare-parameter analysis fixes the order (second) but not the universality class in the chiral limit. Positive evidence for a class means collapse onto its scaling function, which for staggered quarks at finite \(a\) shows \(O(2)\) rather than \(O(4)\).</p></div></details>
+    <details><summary>How does this estimate of the conformal window relate to the two-loop \(\beta\)-function?</summary><div><p>The two-loop zero is a weak-coupling guide valid near \(N_f=16\). The lower edge needs nonperturbative input; this talk gets it from where the thermal transition loses its continuum limit, rather than from the \(\beta\)-function.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Pisarski–Wilczek (1984); Cuteri, Philipsen, Sciarra, JHEP (2021); Philipsen, Symmetry 13 (2021) for a review</li><li>HotQCD, PRL (2019) and PRD (2022), chiral-limit temperatures</li><li>Banks–Zaks (1982); Appelquist, Terning, Wijewardhana (1996); Miransky–Yamawaki (1997)</li><li>Bros–Buchholz (1994, 1996, 2002); Lowdon–Philipsen, JHEP (2022, 2024, 2025)</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="roberge-weiss" data-short="Tricritical point from Binder derivatives" data-speaker="Tatsuya Wada" data-status="pre" data-tags="Phase diagram,Lattice methods,Finite-size scaling">
+  <header class="talk-head">
+    <h3>A new method for locating a tricritical point using Binder-cumulant derivatives and its application to heavy-quark QCD</h3>
+    <div class="byline"><span class="status s-pre">Preliminary</span><span class="speaker">Tatsuya Wada</span><span>YITP, Kyoto University</span><time datetime="2026-10-28T14:45">28 Oct, 14:45–15:05</time></div>
+    <div class="byline" style="margin-top:.2rem"><span>With Masakiyo Kitazawa and Kazuyuki Kanaya (University of Tsukuba)</span></div>
+    <div class="tags"><span class="tag">Roberge–Weiss endpoint</span><span class="tag">Binder cumulant</span><span class="tag">Logarithmic corrections</span><span class="tag">Hopping-parameter expansion</span></div>
+  </header>
+
+  <p class="gist">On the Roberge–Weiss plane of heavy-quark QCD the endpoint changes from a triple point to a 3D-Ising point through a tricritical point. Instead of fitting Binder-cumulant crossings, the speaker reads the thermal exponent \(y_t\) directly from the ratio of \(\beta\)-derivatives of the Binder cumulant on two volumes, with logarithmic corrections built in. With volumes up to \(LT=15\) this puts the tricritical point at \(\lambda_{\rm tric}\approx0.03\).</p>
+
+  <h4>Why heavy quarks and imaginary \(\mu\)</h4>
+  <p>The goal is the QCD critical point at finite \(T\) and \(\mu\), which Monte Carlo cannot reach directly because of the sign problem. The heavy-quark corner of the Columbia plot is a controllable testing ground. At \(m_q\to\infty\) QCD is \(SU(3)\) Yang–Mills with a first-order deconfinement transition. Lowering the quark mass weakens it until it becomes a crossover; the boundary is the second-order heavy-quark critical point (Kiyohara et al. 2021; Ashikawa et al. 2024). The question is how this changes with density. At imaginary \(\hat\mu_q=\mu/T=i\pi/3\) there is no sign problem.</p>
+
+  <h4>Roberge–Weiss periodicity</h4>
+  <p>An imaginary chemical potential twists the quarks’ temporal boundary condition by \(e^{i\theta}\). A center transformation, which multiplies the Polyakov loop by \(e^{2\pi i/3}\), shifts that twist by \(2\pi/3\), so</p>
+  <figure class="eq">
+    \[Z(T,\mu)=Z\!\left(T,\mu\pm\tfrac{2\pi i}{3}T\right),\qquad \hat\mu_{\rm RW}=\frac{i(2k+1)\pi}{3}.\]
+    <figcaption>At the RW values, charge conjugation combined with a center transformation is an exact \(Z_2\) symmetry. At high \(T\) the Polyakov-loop phase jumps between two center sectors across \(\hat\mu_{\rm RW}\) (a first-order RW line); at low \(T\) the dependence is smooth. \(\Im\Omega\), with \(\Omega\) the Polyakov loop, is the order parameter; the slides evaluate it at \(\mu/T=i\pi\), an equivalent RW point.</figcaption>
+  </figure>
+  <figure class="diagram">
+    <svg viewBox="0 0 440 240" role="img" aria-labelledby="rwT">
+      <title id="rwT">Roberge–Weiss phase structure</title>
+      <line x1="50" y1="200" x2="420" y2="200" class="d-ink2"/>
+      <line x1="50" y1="200" x2="50" y2="20" class="d-ink2"/>
+      <path d="M50 140 Q110 125 145 95 Q180 125 235 140 Q290 125 330 95 Q370 125 420 140" class="d-ink2" stroke-width="1.3" stroke-dasharray="3 4"/>
+      <line x1="145" y1="95" x2="145" y2="25" class="d-acc" stroke-width="3"/>
+      <line x1="330" y1="95" x2="330" y2="25" class="d-acc" stroke-width="3"/>
+      <circle cx="145" cy="95" r="6" fill="var(--spec)"/>
+      <circle cx="330" cy="95" r="6" fill="var(--spec)"/>
+      <text x="155" y="45" class="d-txt">1st-order RW line</text>
+      <text x="155" y="100" class="d-txt">RW endpoint</text>
+      <text x="200" y="175" class="d-txt">low T: smooth in θ</text>
+      <text x="145" y="218" class="d-txt-s" text-anchor="middle">π/3</text>
+      <text x="330" y="218" class="d-txt-s" text-anchor="middle">π</text>
+      <text x="50" y="218" class="d-txt-s" text-anchor="middle">0</text>
+      <text x="420" y="218" class="d-txt-s" text-anchor="end">θ = μ<tspan baseline-shift="sub" font-size="8">I</tspan>/T</text>
+      <text x="38" y="30" class="d-txt-s" text-anchor="end">T</text>
+    </svg>
+    <figcaption>Above \(T_{\rm RW}\), crossing \(\theta_{\rm RW}\) flips the Polyakov-loop phase discontinuously; dashed curves are the deconfinement transitions at other \(\theta\), which meet the RW line at its endpoint.</figcaption>
+  </figure>
+
+  <h4>What the endpoint can be</h4>
+  <p>For \(N_f=2\) heavy quarks, three lines meet at the RW endpoint: the RW line and the two deconfinement lines on either side of it (Philipsen et al. 2015, 2016). Their character depends on the quark mass:</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Quark mass</th><th>At the endpoint</th><th>Type</th><th>\(b_4\)</th><th>\(y_t=1/\nu\)</th></tr></thead>
+    <tbody>
+      <tr><td>Heavy (small \(\lambda\))</td><td>three first-order lines meet</td><td>Triple point</td><td class="num">1.5</td><td class="num">3</td></tr>
+      <tr><td>\(\lambda=\lambda_{\rm tric}\)</td><td>three second-order lines meet</td><td>Tricritical</td><td class="num">2</td><td class="num">2</td></tr>
+      <tr><td>Lighter (larger \(\lambda\))</td><td>RW endpoint 2nd order, deconfinement a crossover</td><td>3D Ising</td><td class="num">1.60359(4)</td><td class="num">1/0.6301(4)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>The Binder cumulant and its three values</h4>
+  <figure class="eq">
+    \[B_4(\beta,L)=\frac{\langle(\Im\Omega)^4\rangle_c}{\langle(\Im\Omega)^2\rangle_c^2}+3,\qquad B_4(\beta,L)=b_4+c_4(\beta-\beta_c)L^{y_t}+O(L^{2y_t}).\]
+    <figcaption>Adding 3 to the connected ratio turns it into the ordinary kurtosis. Away from the endpoint, \(B_4\to3\) on the crossover side (Gaussian fluctuations) and \(B_4\to1\) on the first-order side (two ordered states). At \(\beta_c\) it takes the universal value \(b_4\), and the slope through the crossing grows like \(L^{y_t}\).</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Deriving 1.5 and 2 (added)</span>
+    <p><strong>Triple point.</strong> Three degenerate phases with \(\Im\Omega=+a,-a,0\), each with weight 1/3: \(\langle x^2\rangle=\tfrac23a^2\), \(\langle x^4\rangle=\tfrac23a^4\), so \(B_4=\tfrac{2/3}{4/9}=1.5\).</p>
+    <p><strong>Tricritical point.</strong> The Landau potential starts at \(\phi^6\), so at mean field \(P(x)\propto e^{-cx^6}\) and \(\langle x^n\rangle\propto\Gamma\!\big(\tfrac{n+1}6\big)\). Then \(B_4=\Gamma(\tfrac56)\Gamma(\tfrac16)/\Gamma(\tfrac12)^2=\dfrac{\pi/\sin(\pi/6)}{\pi}=2\). Three dimensions is the upper critical dimension for tricriticality, so this value is reached only up to logarithmic corrections.</p>
+    <p><strong>3D Ising.</strong> No closed form; 1.60359(4) is known numerically.</p>
+  </div>
+
+  <h4>The earlier study and its limitation</h4>
+  <p>Czaban, Cuteri, Philipsen et al. (2015, 2016) used Wilson fermions with \(\kappa\sim1/(2am_q)\), \(N_t=4\) and 6, and aspect ratios \(LT=N_s/N_t\) up to about 6. Fitting \(b_4,c_4,\beta_c,y_t\) together, the fitted \(b_4\) did not match the expected values, so they relied on \(y_t\) instead. Plots of \(1/y_t\) against \(\kappa\) did move between the three plateaus (1/3, 1/2, 0.63), but with large scatter. The lesson drawn: the exponent approach is promising, but logarithmic corrections and finite-size effects must be handled.</p>
+
+  <h4>New method: ratio of Binder derivatives</h4>
+  <figure class="eq">
+    \[B_4(\beta,LT)=b_4+c_4(\beta-\beta_c)(LT)^{y_t}(\ln LT)^{\hat y_t}+O\!\big((LT)^{2y_t}(\ln LT)^{2\hat y_t}\big)\]
+    \[\Rightarrow\quad R_4(\beta,LT,s)\equiv\frac{\partial_\beta B_4(\beta,sLT)}{\partial_\beta B_4(\beta,LT)}=s^{y_t}\left(\frac{\ln(sLT)}{\ln LT}\right)^{\hat y_t},\qquad \frac{\ln R_4}{\ln s}=y_t+\hat y_t\,\frac{\ln\!\big(\ln(sLT)/\ln LT\big)}{\ln s}\;\xrightarrow{LT\to\infty}\;y_t.\]
+    <figcaption>Taking the \(\beta\)-derivative removes \(b_4\) and \(\beta_c\) from the problem, and the ratio removes \(c_4\). What is left is the exponent plus a logarithmic correction that dies off as the volume grows. \(\beta_c\) itself can be read off from the peak of \(|\partial_\beta B_4|\). No fit is involved.</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">How fast the log correction fades (added)</span>
+    <p>For large \(LT\), \(\ln\!\big(\ln(sLT)/\ln LT\big)\approx\ln s/\ln LT\), so the correction term is about \(\hat y_t/\ln LT\). It decays only logarithmically, which is why going from \(LT=6\) to 15 matters, and why an unaccounted \(\hat y_t\) biases a fitted \(y_t\) in small volumes.</p>
+  </div>
+
+  <h4>Simulation</h4>
+  <ul>
+    <li>Wilson fermions in the hopping-parameter expansion with heat-bath updates. At \(N_t=4\) the leading quark effect is a Polyakov-loop term with coupling \(\lambda=64N_fN_c\kappa^4\), so \(\lambda\) grows as the quarks get lighter (\(\lambda\propto\kappa^4\sim1/m_q^4\) at leading order). The cost is close to pure Yang–Mills.</li>
+    <li>Configurations generated at leading order; next-to-leading-order terms included by reweighting; multi-point reweighting for a continuous scan in \(\beta\).</li>
+    <li>\(N_t=4\), \(N_s=24\)–60, so \(LT=6\)–15, about \(10^6\) configurations per point.</li>
+  </ul>
+
+  <h4>Results</h4>
+  <p>At \(\lambda=0.03\), Binder curves for \(LT=6\)–15 cross near \(B_4\approx1.7\)–1.8, and the slope steepens with volume. Effective exponents \(y_t(\beta)\) from the derivative ratio behave very differently on the two sides:</p>
+  <ul>
+    <li>\(\lambda=0.0125\) (triple-point side): \(y_t\) overshoots far above 3, to about 4.3 for \(LT=6,15\) and about 6 for \(LT=12,15\).</li>
+    <li>\(\lambda=0.0325\) (near tricritical): peaks at about 2.</li>
+    <li>\(\lambda=0.06\) (Ising side): peaks near 1.6, close to 1.587.</li>
+  </ul>
+  <figure class="diagram">
+    <svg viewBox="0 0 440 120" role="img" aria-labelledby="lamT">
+      <title id="lamT">Endpoint type along the heavy-quark mass axis</title>
+      <rect x="40" y="40" width="150" height="30" class="d-fill-pre"/>
+      <rect x="190" y="40" width="50" height="30" class="d-fill-spec"/>
+      <rect x="240" y="40" width="170" height="30" class="d-fill-est"/>
+      <line x1="40" y1="70" x2="410" y2="70" class="d-ink2"/>
+      <text x="115" y="60" class="d-txt" text-anchor="middle">triple point, y<tspan baseline-shift="sub" font-size="8">t</tspan> = 3</text>
+      <text x="215" y="60" class="d-txt-s" text-anchor="middle">TCP</text>
+      <text x="325" y="60" class="d-txt" text-anchor="middle">3D Ising, y<tspan baseline-shift="sub" font-size="8">t</tspan> ≈ 1.59</text>
+      <text x="40" y="88" class="d-txt-s" text-anchor="middle">0</text>
+      <text x="190" y="88" class="d-txt-s" text-anchor="middle">0.03</text>
+      <text x="240" y="88" class="d-txt-s" text-anchor="middle">0.04</text>
+      <text x="410" y="88" class="d-txt-s" text-anchor="end">0.06</text>
+      <text x="225" y="110" class="d-txt-s" text-anchor="middle">λ = 64 N<tspan baseline-shift="sub" font-size="8">f</tspan>N<tspan baseline-shift="sub" font-size="8">c</tspan>κ⁴ ∝ 1/m<tspan baseline-shift="sub" font-size="8">q</tspan>⁴ at N<tspan baseline-shift="sub" font-size="8">t</tspan> = 4; larger λ means lighter quarks</text>
+      <text x="40" y="28" class="d-txt-s">heavier quarks</text>
+    </svg>
+    <figcaption>Exponent from neighbouring-volume pairs (8,6), (10,9), (15,12): \(y_t\) falls from the triple-point regime through 2 in the band \(\lambda\approx0.03\)–0.04 toward the Ising value. Estimated \(\lambda_{\rm tric}\approx0.03\), consistent with Philipsen et al.</figcaption>
+  </figure>
+  <div class="box caveat"><span class="box-label">Reading the numbers</span>
+    <p>The overshoot \(y_t&gt;3\) on the first-order side is not a physical exponent: the asymptotic first-order value is \(y_t=d=3\), so effective values above it are presumably pre-asymptotic finite-size behaviour of the derivative ratio near a strong first-order transition. The values are at \(N_t=4\) (coarse) in the hopping expansion, so \(\lambda_{\rm tric}\) is a lattice-parameter value, not yet a continuum quark mass. Work in preparation.</p>
+  </div>
+  <div class="box take"><span class="box-label">Summary</span>
+    <p>Ratios of Binder-cumulant derivatives extract critical exponents directly and control logarithmic corrections. Applied to the RW transition in heavy-quark QCD, they locate the tricritical point at \(\lambda_{\rm tric}\approx0.03\). Next steps: the chiral limit, locating the tricritical point with Lee–Yang zeros, and real chemical potential.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Why use a derivative rather than comparing Binder values?</summary><div><p>The Binder values at the endpoint (1.5, 1.604, 2) lie close together and drift with volume, whereas the slope ratio gives the exponent directly, and the candidate exponents (3, 2, 1.587) are well separated.</p></div></details>
+    <details><summary>Is the tricritical Binder value exactly 2?</summary><div><p>Only asymptotically. Three dimensions is the upper critical dimension for tricriticality, so logarithmic corrections make the approach slow; this is exactly what the \(\hat y_t\) term is designed to absorb.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Roberge–Weiss (1986)</li><li>Czaban, Cuteri, Philipsen et al. (2015, 2016), RW endpoint with Wilson fermions</li><li>Kiyohara et al. (2021); Ashikawa et al. (2024), heavy-quark critical point</li><li>Binder (1981), cumulant method</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="spin-hydro" data-short="Fluctuations in spin hydrodynamics" data-speaker="Sejal Singh" data-status="est" data-tags="Heavy-ion collisions,Hydrodynamics">
+  <header class="talk-head">
+    <h3>Hydrodynamic fluctuations in dissipative spin hydrodynamics for Bjorken flow</h3>
+    <div class="byline"><span class="status s-est">Reported</span><span class="speaker">Sejal Singh</span><time datetime="2026-10-28T15:05">28 Oct, 15:05–15:25</time></div>
+    <div class="tags"><span class="tag">Λ polarization</span><span class="tag">Spin tensor</span><span class="tag">Fluctuation–dissipation</span><span class="tag">Model study</span></div>
+  </header>
+
+  <p class="gist">If spin is a slow hydrodynamic variable, it must fluctuate, and the size of those fluctuations is fixed by its dissipation. The talk solved this in boost-invariant Bjorken flow and found that a longitudinal noise contribution cancels on average while transverse spin correlations survive.</p>
+
+  <h4>Motivation</h4>
+  <p>Non-central collisions carry large orbital angular momentum. STAR (2017) measured a global Λ-hyperon polarization of about one percent at RHIC energies, implying vorticity near \(10^{22}\,\mathrm{s}^{-1}\). In local equilibrium the polarization follows thermal vorticity:</p>
+  <figure class="eq">
+    \[\varpi_{\mu\nu}=-\frac12\big(\partial_\mu\beta_\nu-\partial_\nu\beta_\mu\big),\qquad \beta_\mu=\frac{u_\mu}{T}.\]
+    <figcaption>Spin hydrodynamics promotes the spin chemical potential \(\omega_{\mu\nu}\) to an independent variable that relaxes toward \(\varpi_{\mu\nu}\) instead of being identical to it.</figcaption>
+  </figure>
+
+  <h4>Angular momentum and the spin tensor</h4>
+  <figure class="eq">
+    \[J^{\lambda,\mu\nu}=x^\mu T^{\lambda\nu}-x^\nu T^{\lambda\mu}+S^{\lambda,\mu\nu},\qquad \partial_\lambda J^{\lambda,\mu\nu}=0\;\Rightarrow\;\partial_\lambda S^{\lambda,\mu\nu}=T^{\nu\mu}-T^{\mu\nu}.\]
+    <figcaption>Spin is exchanged with orbital angular momentum only through the antisymmetric part of \(T^{\mu\nu}\). With the symmetric Belinfante tensor there is no separate spin current at all, so the split between spin and orbital parts depends on the pseudogauge choice.</figcaption>
+  </figure>
+
+  <h4>Bjorken flow</h4>
+  <figure class="eq">
+    \[\tau=\sqrt{t^2-z^2},\qquad u^\mu=\left(\frac t\tau,0,0,\frac z\tau\right),\qquad \partial_\mu u^\mu=\frac1\tau.\]
+  </figure>
+  <div class="box added"><span class="box-label">Why Bjorken flow has no thermal vorticity (added)</span>
+    <p>Here \(u_\mu=\partial_\mu\tau\) and \(T=T(\tau)\), so \(\beta_\mu=\partial_\mu\tau/T(\tau)=\partial_\mu F(\tau)\) is a pure gradient and its curl \(\varpi_{\mu\nu}\) vanishes identically. Any spin in this background must come from initial conditions or noise, which makes it a clean setting to isolate fluctuations.</p>
+  </div>
+
+  <h4>Noise fixed by dissipation</h4>
+  <p>Schematically, a spin component relaxes with rate \(\Gamma\) and is kicked by noise:</p>
+  <figure class="eq">
+    \[\frac{dS}{d\tau}=-\Gamma(\tau)\,S+\xi(\tau),\qquad\langle\xi\rangle=0,\qquad\langle\xi(\tau)\xi(\tau')\rangle=2\,\Gamma\,\frac{T\chi_S}{V}\,\delta(\tau-\tau').\]
+    <figcaption>The noise strength is not a free parameter: it is chosen so that \(S\) relaxes to its equilibrium variance \(\langle S^2\rangle=T\chi_S/V\). In an expanding fluid the comoving volume grows like \(\tau\), so the relative size of fluctuations changes with time. Tensor structure is suppressed here.</figcaption>
+  </figure>
+  <p>The speaker worked in the Stratonovich convention, which matters when noise amplitude depends on the fluctuating fields. By the symmetry of Bjorken flow, the longitudinal noise contribution was argued to cancel, while transverse components fluctuate.</p>
+  <figure class="eq">
+    \[\langle\xi\rangle=0\quad\not\Rightarrow\quad\langle\xi(\tau)\xi(\tau')\rangle=0.\]
+    <figcaption>A vanishing mean says nothing about two-point functions. Spin–spin correlations, for example between Λ pairs, are where the noise becomes observable.</figcaption>
+  </figure>
+  <div class="box take"><span class="box-label">Takeaway</span>
+    <p>Treating spin dynamically requires a stochastic sector with fluctuation–dissipation-fixed noise. Its imprint is in polarization correlations, even where the average polarization vanishes by symmetry.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Does the longitudinal cancellation survive transverse expansion?</summary><div><p>Not necessarily. It relies on Bjorken symmetry; a realistic 3+1D evolution is needed.</p></div></details>
+    <details><summary>Can spin fluctuations matter when average polarization vanishes?</summary><div><p>Yes. Connected correlations and event-by-event fluctuations remain measurable.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>STAR Collaboration (2017), global Λ polarization</li><li>Becattini et al., polarization from thermal vorticity</li><li>Florkowski, Ryblewski and collaborators; Hattori et al., spin hydrodynamics</li><li>Kapusta, Müller, Stephanov (2012), stochastic hydrodynamics</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="lee-yang" data-short="Lee–Yang zeros and edge singularity" data-speaker="Gyozo Kovacs" data-status="est" data-tags="Phase diagram,Finite-size scaling,Critical endpoint">
+  <header class="talk-head">
+    <h3>Lee–Yang zeros and edge singularity in a finite-size effective model</h3>
+    <div class="byline"><span class="status s-est">Method</span><span class="speaker">Győző Kovács</span><time datetime="2026-10-28T15:55">28 Oct, 15:55–16:25</time></div>
+    <div class="tags"><span class="tag">Partition-function zeros</span><span class="tag">3D Ising</span><span class="tag">Landau model</span></div>
+  </header>
+
+  <p class="gist">A phase transition is a point where \(\ln Z\) stops being analytic, which can only happen where zeros of \(Z\) in the complex plane pinch the real axis. Tracking the leading zeros at finite volume gives a critical-point diagnostic that needs no order parameter, provided the fluctuation integral is kept, not replaced by its saddle point.</p>
+
+  <h4>Why zeros</h4>
+  <figure class="eq">
+    \[Z_V(T,\mu)=\sum_N Z_N(T,V)\,z^N,\qquad z=e^{\mu/T}.\]
+    <figcaption>At finite \(V\), \(Z_V\) is a polynomial-like series with positive coefficients, so it has no zeros on the positive real \(z\) axis and \(\ln Z_V\) is analytic there. Zeros live in the complex plane; a transition appears when they accumulate onto the real axis as \(V\to\infty\).</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Background: Lee–Yang (added)</span>
+    <p>For the ferromagnetic Ising model, the Lee–Yang theorem puts all zeros in the complex magnetic field \(h\) on the imaginary axis. Above \(T_c\) they leave a gap: the Yang–Lee edge at \(h_{\rm YL}\propto i\,|t|^{\beta\delta}\). As \(T\to T_c\) the edge closes onto \(h=0\), which is the critical point seen from the complex plane.</p>
+  </div>
+
+  <h4>Finite-size scaling</h4>
+  <figure class="eq">
+    \[\Im h_j(L)\simeq c_j\,L^{-y_h}\left[1+O(L^{-\omega})\right],\qquad y_h=\frac{d+2-\eta}{2}\approx2.482\ \ (\text{3D Ising}).\]
+    \[R_{jk}(L)=\frac{\Im h_j(L)}{\Im h_k(L)}\;\longrightarrow\;\frac{c_j}{c_k}.\]
+    <figcaption>At the critical temperature, the leading zeros approach the real axis with a universal power. Ratios cancel that power and the nonuniversal normalization, leaving universal numbers; their volume crossings can locate critical parameters, much like Binder crossings.</figcaption>
+  </figure>
+
+  <h4>Why the fluctuation integral matters</h4>
+  <p>The speaker illustrated the method with a finite-volume Landau model:</p>
+  <figure class="eq">
+    \[Z_V(t,h)=\int_{-\infty}^{\infty}\!d\phi\,\exp\!\left[-\frac VT\left(\frac{a\,t}2\phi^2+\frac b4\phi^4-h\phi\right)\right].\]
+  </figure>
+  <div class="box added"><span class="box-label">Why the saddle point loses the zeros (added)</span>
+    <p>A saddle-point approximation replaces \(Z_V\) by a single exponential \(e^{-V f(\phi_*)}\), and an exponential is never zero. Zeros need at least two contributions that can cancel, such as the two ordered minima \(\pm\phi_*\) interfering at complex \(h\), or the full integral at the critical point. Keeping the integral keeps the interference.</p>
+  </div>
+
+  <h4>Application to QCD</h4>
+  <p>Real-\(\mu_B\) lattice simulations face the sign problem, so zeros are reconstructed from imaginary-\(\mu\) data or Taylor coefficients, typically with Padé approximants. In QCD the Ising fields \((t,h)\) are unknown linear combinations of \(T-T_c\) and \(\mu-\mu_c\), so the map must be fitted as well.</p>
+  <div class="box caveat"><span class="box-label">Systematics</span>
+    <p>Analytic continuation is ill-conditioned: truncated series and Padé fits can create spurious zeros or move real ones. Stability against truncation order, volume and fit ansatz has to be shown explicitly.</p>
+  </div>
+  <div class="box take"><span class="box-label">Takeaway</span>
+    <p>Lee–Yang zeros encode critical nonanalyticity directly; ratios of leading zeros give a universal finite-size handle, but only if volume dependence and analytic continuation are under control.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Why ratios of leading zeros?</summary><div><p>The common \(L^{-y_h}\) and the nonuniversal normalization cancel, leaving a cleaner universal signature than the position of any one zero.</p></div></details>
+    <details><summary>Can imaginary-μ data locate the physical critical endpoint unambiguously?</summary><div><p>No. Continuation and truncation are ill-conditioned; robust systematic checks are essential.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Yang–Lee; Lee–Yang (1952)</li><li>Fisher (1978), Yang–Lee edge singularity</li><li>Stephanov (2006), QCD critical point and complex chemical potential</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="axial-anomaly" data-short="A syncretic model of the chiral transition" data-speaker="Robert D. Pisarski" data-status="spec" data-tags="Chiral symmetry,Topology,Phase diagram,Glueballs">
+  <header class="talk-head">
+    <h3>A syncretic model for the chiral phase transition</h3>
+    <div class="byline"><span class="status s-spec">Proposal with tests</span><span class="speaker">Robert D. Pisarski</span><span>Brookhaven National Laboratory</span><time datetime="2026-10-28T16:25">28 Oct, 16:25–16:55</time></div>
+    <div class="tags"><span class="tag">Fractional instantons</span><span class="tag">’t Hooft determinant</span><span class="tag">θ dependence</span><span class="tag">U(1)_A</span><span class="tag">X(2370)</span></div>
+  </header>
+
+  <p class="gist">“Syncretic” means fusing two traditions, like the Gandhāra Buddha carved in Hellenistic style. The two traditions here are the Landau–Ginzburg–Wilson sigma model of chiral symmetry and large-\(N_c\) topology, in which the confined vacuum is a dense liquid of fractional instantons with \(Q=1/N_c\). Combining them puts fractional ’t Hooft determinants \((\det\Phi)^{n/3}\) into the effective theory. The talk tested this against lattice \(\theta\)-dependence, glueball masses at \(\theta\neq0\), \(U(1)_A\) probes and BESIII decays of the glueball candidate X(2370).</p>
+
+  <h4>Beyond Landau at imaginary chemical potential</h4>
+  <p>The opening result (Chen, Cherman, Pisarski, arXiv:2603.09977) uses ’t Hooft anomalies of QCD at imaginary baryon chemical potential \(i\mu_B\). In the plane of \(T\) and \(i\mu_B\), the chiral transition is argued to be <em>beyond Landau</em>: not describable by a Landau–Ginzburg–Wilson order-parameter theory in the Wilson–Fisher–Kadanoff sense. This is the caveat Philipsen referred to in the first talk of the session.</p>
+
+  <h4>The standard sigma model</h4>
+  <figure class="eq">
+    \[V(\Phi)=m^2\tr\Phi^\dagger\Phi+\lambda_1\big(\tr\Phi^\dagger\Phi\big)^2+\lambda_2\tr(\Phi^\dagger\Phi)^2-c\big(\det\Phi+\det\Phi^\dagger\big),\qquad \Phi\to L\,\Phi\,R^\dagger.\]
+    <figcaption>Everything except the \(c\)-term is \(U(3)_L\times U(3)_R\) invariant. Under \(U(1)_A\), \(\Phi\to e^{2i\alpha}\Phi\) and \(\det\Phi\to e^{6i\alpha}\det\Phi\): the determinant is the mesonic form of the instanton (’t Hooft) vertex, generated by \(Q=1\) configurations, and it is cubic for three flavours.</figcaption>
+  </figure>
+
+  <h4>Large \(N_c\): why the vacuum needs \(Q=1/N_c\)</h4>
+  <p>Take \(SU(N_c)\) with \(N_f\) massless flavours in the ’t Hooft limit (\(N_c\to\infty\), \(N_f/N_c\to0\)), and add \(\mathcal S\to\mathcal S+i\theta Q\). At \(N_c=\infty\) the theory is free, with \(O(1)\) glueball and meson masses, and the pure-glue topological susceptibility \(\chi\) is \(O(1)\) and \(T\)-independent below deconfinement. Quark loops are suppressed by \(1/N_c\), yet with massless quarks all \(\theta\)-dependence must cancel. Writing the \(p\to0\) topological correlator as a sum over glueball and meson poles, the cancellation requires one meson whose mass\(^2\) is \(O(1/N_c)\): the \(\eta'\).</p>
+  <figure class="eq">
+    \[m_{\eta'}^2=\frac{4N_f}{f_\pi^2}\,\chi^{\rm pure\ glue}\sim\frac{N_f}{N_c}\qquad(\text{Witten, Veneziano 1979};\ f_\pi\sim\sqrt{N_c}).\]
+    <figcaption>With \(f_\pi\approx130\) MeV this is the same relation as \(2N_f\chi/f_\pi^2\) with \(f_\pi\approx92\) MeV; only the decay-constant convention differs.</figcaption>
+  </figure>
+  <figure class="eq">
+    \[S_{Q=1}=\frac{8\pi^2}{g^2}=\frac{8\pi^2}{\lambda}N_c,\qquad S_{Q=1/N_c}=\frac{8\pi^2}{g^2}\frac1{N_c}=\frac{8\pi^2}{\lambda},\qquad \lambda=g^2N_c\ \text{fixed}.\]
+    <figcaption>Ordinary instantons are suppressed like \(e^{-N_c}\) and cannot give an \(O(1)\) susceptibility at \(N_c=\infty\). Objects with \(Q=1/N_c\) have \(O(1)\) action. On a compact manifold \(Q\) is an integer, but with \(Z(N_c)\) twisted boundary conditions \(Q\in\mathbb Z/N_c\) (’t Hooft 1981).</figcaption>
+  </figure>
+
+  <h4>Lattice evidence the speaker cited</h4>
+  <figure class="eq">
+    \[E(\theta)\sim\theta^2(1+b_2\theta^2+\dots):\qquad Q=j\Rightarrow b_2=-\tfrac1{12};\qquad Q=\tfrac{j}{N_c}\Rightarrow b_2=-\tfrac1{12}\tfrac1{N_c^2}\approx-\tfrac{0.08}{N_c^2};\qquad \text{lattice: }b_2=-\tfrac{0.19}{N_c^2}.\]
+    <figcaption>The first two values hold for a <em>dilute</em> gas. Pure-gauge lattice data for \(N_c=3,4,6\) (Bonanno, D’Elia, Lucini, Vadacchino 2022) follow \(1/N_c^2\) but with a coefficient about 2.3 times larger. The speaker read this as strong evidence for a <em>dense</em> liquid of \(Q=1/N_c\) instantons (“of course it’s dense”).</figcaption>
+  </figure>
+  <p>On temperature dependence, lattice data at \(N=4,6\) (Del Debbio et al. 2004) show \(\chi(T)/\chi(0)\approx1\) below deconfinement and a sharp drop to nearly zero just above, sharper at larger \(N\). The speaker’s conclusion: topological charge is fractional below \(T_{\rm deconf}\) and integral above.</p>
+  <div class="box caveat"><span class="box-label">Alternative readings (added)</span>
+    <p>Standard large-\(N_c\) counting, with \(E(\theta)=N_c^2 f(\theta/N_c)\) and multiple branches, also predicts \(b_2\propto1/N_c^2\) without assuming any semiclassical objects, so the scaling alone does not single out fractional instantons; the coefficient is the more specific test. Likewise, the drop of \(\chi\) above \(T_c\) is expected from Debye screening of integer instantons (dilute-gas behaviour \(\chi\propto T^{-b}\)), so the claim “fractional below, integral above” is an interpretation of the change rather than a direct measurement of the charge.</p>
+  </div>
+
+  <h4>Fractional determinants and the order of the transition</h4>
+  <p>If the vacuum carries \(Q=1/3\) and \(2/3\) objects, the effective chiral Lagrangian contains \((\det\Phi)^{1/3}\) and \((\det\Phi)^{2/3}\) alongside \(\det\Phi\) (Pisarski–Rennecke 2024). In mean field, the transition is then second order if the expectation values of a tower of such operators vanish.</p>
+  <div class="box added"><span class="box-label">Power counting (editor’s reading)</span>
+    <p>\(\det\Phi\) has degree 3 in \(\Phi\) for \(N_f=3\); \((\det\Phi)^{q}\) has degree \(3q\), so \(q=\tfrac13,\tfrac23\) give linear-like and quadratic-like terms. Without the cubic invariant dominating, the mean-field drive toward a first-order transition is gone, which would be consistent with the lattice picture in Philipsen’s talk. Fractional powers are multivalued and nonanalytic at \(\Phi=0\), which is why the speaker writes them through the phase \(\det\Phi/|\det\Phi|\) below.</p>
+  </div>
+
+  <h4>Test 1: \(U(1)_A\) restoration on the lattice</h4>
+  <figure class="eq">
+    \[\pi^a=\bar q\gamma_5\tau^aq,\quad\delta^a=\bar q\tau^aq,\qquad \chi_\pi=\int d^3x\,\langle\pi^a(x)\pi^a(0)\rangle\sim\frac1{m_\pi^2},\qquad \mathcal R_{\pi-\delta}=\frac{\chi_\pi-\chi_\delta}{\chi_\pi+\chi_\delta}.\]
+    <figcaption>\(\pi\) and \(\delta\) (\(a_0\)) are related by a \(U(1)_A\) rotation and, as isovector channels, have no disconnected diagrams, so they are easier than \(\sigma\) or \(\eta'\). Aarts et al. (arXiv:2601.21178) find \(U(1)_A\) approximately restored only by about 300 MeV, compared with about 200 MeV in earlier analyses.</figcaption>
+  </figure>
+
+  <h4>Test 2: how the \(\pi\)–\(a_0\) splitting depends on the strange condensate</h4>
+  <figure class="eq">
+    \[m_\delta^2-m_\pi^2\approx\big(\langle\bar ss\rangle\big)^{\beta}:\qquad \beta=1\ \ (\text{integer }\det,\ Q=1),\qquad \tfrac13&lt;\beta&lt;\tfrac23\ \ (Q=\tfrac13,\tfrac23).\]
+  </figure>
+  <div class="box added"><span class="box-label">Why the strange condensate (added)</span>
+    <p>Above \(T_c\) the light condensate is small, but the ’t Hooft vertex couples \(u\), \(d\) and \(s\) together. Closing the strange leg on \(\langle\bar ss\rangle\) (the vertex diagram on the slide) leaves an effective \(U(1)_A\)-breaking \(u\)–\(d\) interaction proportional to \(\langle\bar ss\rangle\). With \(\Phi\approx\mathrm{diag}(\phi_{ud},\langle\bar ss\rangle)\), \(\det\Phi\) is linear in the strange entry, giving \(\beta=1\), while \((\det\Phi)^q\) carries \(\langle\bar ss\rangle^q\).</p>
+  </div>
+  <figure class="eq">
+    \[\langle\bar qq\rangle_{us}=\frac{\langle\bar uu\rangle(T)-\frac{m_u}{m_s}\langle\bar ss\rangle(T)}{(T=0)},\qquad \text{“Golan” ratio: }\ \frac{\langle\bar ss\rangle(T)-\langle\bar ss\rangle(0)}{\langle\bar uu\rangle(T)-\langle\bar uu\rangle(0)}.\]
+    <figcaption>The test needs the renormalized strange condensate by itself, not the usual light–strange combination. Each condensate has an additive divergence \(\propto m_q/a^2\) that is temperature independent, so it cancels in \(\langle\bar ss\rangle(T)-\langle\bar ss\rangle(0)\); the multiplicative factor cancels in the ratio. “But each is physical!”</figcaption>
+  </figure>
+
+  <h4>Test 3: glueballs and \(\theta\)</h4>
+  <p>Work with Giacosa, Jafarzade, G. Kovács, P. Kovács and Rennecke (arXiv:2610.00484) starts from the Migdal–Shifman (1982) dilaton Lagrangian for the scalar glueball \(G\) and adds only the first fractional anomalous term:</p>
+  <figure class="eq">
+    \[\mathcal V_{\rm dil}=\frac{\lambda_GG^4}{4}\left(\ln\frac G{\Lambda_G}-\frac14\right)+\frac{\lambda^1_{G\theta}G^4}{2}\left(1-\cos\frac\theta3\right)+\dots,\qquad \chi_{\rm YM}=\frac{\lambda_{G\theta}\Lambda_G^4}{2N_c^2}.\]
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Quantity</th><th>Model</th><th>Lattice</th></tr></thead>
+    <tbody>
+      <tr><td>\(b_2\) in \(E(\theta)\)</td><td class="num">−0.0245(65)</td><td class="num">−0.0216 ± 0.002</td></tr>
+      <tr><td>\(m_2\) in \(M_G(\theta)=M_G^0(1+m_2\theta^2+\dots)\)</td><td class="num">−0.0076(33)</td><td class="num">−0.008 ± 0.002</td></tr>
+    </tbody>
+  </table></div>
+  <p>Because \(\cos(\theta/3)\) is not \(2\pi\)-periodic, the vacuum energy is the lowest of three branches \(k=0,1,2\) (\(\theta\to\theta+2\pi k\)). The branches cross at \(\theta=\pm\pi\), giving a first-order transition there with a jump</p>
+  <figure class="eq">
+    \[\Delta Q=3\sqrt3\,\chi_{\rm YM}\,e^{-9\chi_{\rm YM}/2B}\simeq6.1\times10^{-3}\ \mathrm{GeV}^4.\]
+  </figure>
+
+  <h4>Test 4: decays of X(2370)</h4>
+  <p>BESIII (arXiv:2312.05324, 2605.26495, 2607.20366) sees X(2370) at 11.7σ with \(J^{PC}=0^{-+}\) and flavour-blind decays, making it a pseudoscalar-glueball candidate. A pseudoscalar glueball couples like \(\theta\), so the model couples it to \(\sin(n\theta/3)\) and replaces \(\theta\) by the \(U(1)_A\)-invariant combination with the mesons:</p>
+  <figure class="eq">
+    \[\mathcal V_X=-\frac{G^3X}{3}\Big(\lambda^1_{X\theta}\sin\tfrac\theta3+\lambda^2_{X\theta}\sin\tfrac{2\theta}3+\lambda^3_{X\theta}\sin\theta\Big),\qquad \theta\to\Theta=\theta-i\ln\frac{\det\Phi}{|\det\Phi|}.\]
+    \[\Im\Big(\frac{\det\Phi}{|\det\Phi|}\Big)^{n/3}=-\frac n9\tr\big[(\Phi_0^{-1}\varphi)^3\big]-\frac{n^3}{6N_c^3}\big[\tr(\Phi_0^{-1}\varphi)\big]^3+\dots\]
+    <figcaption>Expanding around the vacuum \(\Phi_0\) gives three-meson couplings whose flavour structure depends on \(n\); here \(\varphi\) is the meson fluctuation (written \(X\) on the slide, not to be confused with the glueball). An ordinary \(\det\Phi\) coupling gives a different pattern.</figcaption>
+  </figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Channel</th><th>BESIII \(10^4\mathcal B\)</th><th>Fractional model</th></tr></thead>
+    <tbody>
+      <tr><td>\(\pi K\bar K\)</td><td class="num">3.25 +0.77 −0.79</td><td class="num">2.90</td></tr>
+      <tr><td>\(\pi\pi\eta\)</td><td class="num">3.20 +0.91 −1.00</td><td class="num">3.89</td></tr>
+      <tr><td>\(\pi\pi\eta'\)</td><td class="num">1.94 +0.33 −0.88</td><td class="num">1.99</td></tr>
+      <tr><td>\(K\bar K\eta'\)</td><td class="num">0.39 ± 0.11</td><td class="num">0.278</td></tr>
+      <tr><td>\(\chi^2/\)d.o.f.</td><td></td><td class="num">1.82/3</td></tr>
+    </tbody>
+  </table></div>
+  <p>The integer \(\det\Phi\) coupling misses \(\eta\pi\pi\), \(\eta'\pi\pi\) and \(\eta'K\bar K\) noticeably. The predictions that discriminate are the unmeasured channels. For \(\eta\eta\eta'\), fractional \(n=1,2,3\) give roughly 0.05–0.1 (in \(10^4\mathcal B\)), against a BESIII (2021) 90% upper limit of 0.092, while \(\det\Phi\) gives far less. For \(\eta\eta\eta\) the order reverses: \(\det\Phi\) predicts about 0.1, fractional terms only about 0.01–0.02.</p>
+  <div class="box spec"><span class="box-label">Status</span>
+    <p>The ingredients (fractional charge with twisted boundary conditions, large-\(N_c\) \(\theta\)-scaling, X(2370) as a \(0^{-+}\) state) are established individually; their combination into one effective model is the proposal. Four fitted decay channels with several couplings is a weak constraint, and the glueball nature of X(2370) is itself not settled. The \(\eta\eta\eta\) and \(\eta\eta\eta'\) rates and the exponent \(\beta\) in the \(\pi\)–\(a_0\) splitting are concrete tests.</p>
+  </div>
+
+  <h4>Coming next</h4>
+  <p>Bulk and shear viscosity in an effective matrix model for pure glue (Debnath, Ghosh, Haque, Hidaka, Pisarski, arXiv:2504.20138), to be extended to the chiral matrix model of Pisarski and Skokov (arXiv:1604.00022) at nonzero \(T\) and \(\mu\). The talk closed with a medieval unicorn-hunt tapestry: the QGP is no longer mythical, experimentalists are the hunters, and the role of theorists was left to the audience.</p>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Why should twisted-sector fractional topology affect ordinary QCD?</summary><div><p>That is the central open question. Twisted boundary conditions show that \(Q=1/N_c\) objects exist mathematically; the speaker’s argument is that large-\(N_c\) consistency and the size of \(b_2\) require them in the physical vacuum.</p></div></details>
+    <details><summary>Does \(b_2\propto1/N_c^2\) prove fractional instantons?</summary><div><p>Not by the scaling alone, which large-\(N_c\) counting also gives. The coefficient, −0.19 against the dilute −0.083, is what the speaker used to argue for a dense liquid.</p></div></details>
+    <details><summary>Could a nonpolynomial anomaly term change the universality class?</summary><div><p>Potentially, but only once a consistent local effective description exists and its renormalization-group flow has been analysed.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>’t Hooft, Comm. Math. Phys. (1981), twisted self-dual solutions on a hypertorus</li><li>Witten (1979); Veneziano (1979); Migdal–Shifman (1982)</li><li>Bonanno, D’Elia, Lucini, Vadacchino, arXiv:2205.06190; Del Debbio et al., hep-th/0407068</li><li>Pisarski–Rennecke, PRL (2024); Chen, Cherman, Pisarski, arXiv:2603.09977; Giacosa et al., arXiv:2610.00484</li></ul></div>
+</article>
+
+<!-- ------------------------------------------------------------------ -->
+<article class="talk" id="dirac-ir" data-short="IR phase and IR decoupling" data-speaker="Ivan Horváth" data-status="spec" data-tags="Phase diagram,Dirac spectrum,Localization">
+  <header class="talk-head">
+    <h3>IR phase &amp; IR decoupling: their meaning &amp; purposes</h3>
+    <div class="byline"><span class="status s-spec">Contested claim</span><span class="speaker">Ivan Horváth</span><time datetime="2026-10-28T16:55">28 Oct, 16:55–17:25</time></div>
+    <div class="tags"><span class="tag">IR phase</span><span class="tag">Spectral density</span><span class="tag">Mobility edge</span><span class="tag">Effective dimension</span></div>
+  </header>
+
+  <p class="gist">With physical quark masses neither chiral nor center symmetry gives an exact order parameter, so the speaker proposed classifying thermal QCD by the infrared behaviour of the Dirac spectrum. Above a temperature \(T_{\rm IR}\) (claimed above the chiral crossover), near-zero modes pile up as \(\rho\sim1/\lambda\), become lower dimensional, and are separated from the bulk by a second mobility edge. Whether this is a genuine continuum phase is actively disputed. Philipsen’s talk earlier in the session cited this “third phase” (Alexandru–Horváth 2019) as one motivation for studying the conformal window.</p>
+
+  <h4>Classifying by spectral density</h4>
+  <figure class="eq">
+    \[D\psi_n=i\lambda_n\psi_n,\qquad \rho(\lambda)=\lim_{V\to\infty}\frac1V\Big\langle\sum_n\delta(\lambda-\lambda_n)\Big\rangle,\qquad \rho(\lambda)\propto|\lambda|^p\ \text{as}\ \lambda\to0.\]
+    <figcaption>\(p=0\): finite density at zero (the familiar low-temperature behaviour, labelled B by the speaker). \(p&lt;0\): infrared enhanced. \(p&gt;0\): infrared depleted. The labels are the speaker’s terminology.</figcaption>
+  </figure>
+  <div class="box added"><span class="box-label">Background: Banks–Casher (added)</span>
+    \[\lim_{m\to0}\lim_{V\to\infty}\langle\bar\psi\psi\rangle=-\pi\rho(0).\]
+    <p>A nonzero density at \(\lambda=0\) is chiral symmetry breaking in spectral language. The order of limits is essential: the infinite volume comes first. Away from the chiral limit, \(\rho(0)\neq0\) is no longer an order parameter, which is why a spectral classification needs more than \(\rho(0)\).</p>
+  </div>
+
+  <figure class="diagram">
+    <svg viewBox="0 0 440 230" role="img" aria-labelledby="irT">
+      <title id="irT">Schematic Dirac spectral density in the proposed IR phase</title>
+      <rect x="52" y="20" width="118" height="170" class="d-fill-spec"/>
+      <rect x="170" y="20" width="250" height="170" class="d-fill-est"/>
+      <line x1="52" y1="190" x2="420" y2="190" class="d-ink2"/>
+      <line x1="52" y1="190" x2="52" y2="18" class="d-ink2"/>
+      <path d="M57 25 Q62 120 85 150 Q120 175 160 172 Q200 168 260 140 Q330 105 415 72" class="d-ink" stroke-width="2"/>
+      <line x1="170" y1="20" x2="170" y2="190" class="d-spec" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="170" y="206" class="d-txt" text-anchor="middle">λ<tspan baseline-shift="sub" font-size="9">A</tspan></text>
+      <text x="52" y="206" class="d-txt" text-anchor="middle">0</text>
+      <text x="420" y="206" class="d-txt" text-anchor="end">λ</text>
+      <text x="40" y="30" class="d-txt" text-anchor="end">ρ</text>
+      <text x="66" y="40" class="d-txt">near-zero spike</text>
+      <text x="66" y="55" class="d-txt-s">d<tspan baseline-shift="sub" font-size="8">eff</tspan> ≈ 2</text>
+      <text x="111" y="100" class="d-txt-s" text-anchor="middle">localized band</text>
+      <text x="111" y="113" class="d-txt-s" text-anchor="middle">d<tspan baseline-shift="sub" font-size="8">eff</tspan> ≈ 0</text>
+      <text x="295" y="40" class="d-txt" text-anchor="middle">bulk: extended modes, d ≈ 3</text>
+      <text x="70" y="223" class="d-txt-s">λ<tspan baseline-shift="sub" font-size="8">IR</tspan> = 0 is the infrared mobility boundary</text>
+    </svg>
+    <figcaption>Schematic of the proposed structure above \(T_{\rm IR}\): an infrared spike at \(\lambda=0\), a band of localized or critical-like modes up to \(\lambda_A\), and extended bulk modes above. Not to scale.</figcaption>
+  </figure>
+
+  <h4>The infrared spike and its mathematical caveat</h4>
+  <figure class="eq">
+    \[\rho(\lambda)\sim\frac{A}{|\lambda|}\ \ \text{over the measured window},\qquad N(\Lambda)=\int_0^\Lambda\rho(\lambda)\,d\lambda.\]
+    <figcaption>A literal \(1/|\lambda|\) all the way to zero makes \(N(\Lambda)\) diverge logarithmically, impossible for a finite number of modes per volume. The observed law must be cut off or modified at small \(\lambda\) or by the volume, so how it scales with \(V\) and \(a\) is the real question.</figcaption>
+  </figure>
+
+  <h4>How many dimensions does a mode fill?</h4>
+  <figure class="eq">
+    \[\sum_x|\psi_n(x)|^2=1,\qquad \mathrm{IPR}_n=\sum_x|\psi_n(x)|^4\sim L^{-d_{\rm eff}}.\]
+    <figcaption>A mode spread uniformly over \(L^{d}\) sites has \(\mathrm{IPR}=L^{-d}\); a mode localized on a few sites has \(\mathrm{IPR}\sim1\), i.e. \(d_{\rm eff}=0\). This is a pedagogical stand-in: the speaker’s group uses its own effective-counting dimension, and the transcript did not specify the exact observable.</figcaption>
+  </figure>
+  <p>The reported picture: extended 3D modes at low \(T\); above \(T_{\rm IR}\), near-zero modes with \(d_{\rm eff}\approx2\) and modes up to \(\lambda_A\) with \(d_{\rm eff}\approx0\); exact topological zero modes remaining roughly 3D.</p>
+
+  <h4>Two mobility edges</h4>
+  <figure class="eq">
+    \[\lambda_{\rm IR}=0,\qquad 0&lt;|\lambda|&lt;\lambda_A(T)\ \ \text{localized/critical},\qquad |\lambda|&gt;\lambda_A\ \ \text{extended};\qquad \xi(\lambda)\sim|\lambda-\lambda_c|^{-\nu}.\]
+  </figure>
+  <div class="box added"><span class="box-label">Background: Anderson localization in QCD (added)</span>
+    <p>That low Dirac modes localize above the crossover, with a mobility edge \(\lambda_A\) that rises with \(T\), is well established (Giordano, Kovács, Pittler and others), and the transition at \(\lambda_A\) has been shown to be in the 3D unitary Anderson class. The new claim is a second, infrared boundary at \(\lambda=0\). Calling it Anderson-like critical requires the same tests: diverging localization length and level-spacing statistics interpolating between Poisson and random-matrix behaviour.</p>
+  </div>
+
+  <h4>From spectra to gauge dynamics</h4>
+  <p>The speaker argued that the IR power law signals a scale-invariant component of the glue, while the bulk retains ordinary QCD scales. A gluonic observable was expressed through overlap Dirac eigenmodes with a free-field subtraction, then split by a spectral cutoff into IR and bulk parts. The exact kernel was not in the transcript.</p>
+  <figure class="eq">
+    \[\langle O_{\rm IR}\,O_{\rm bulk}\rangle_c=\langle O_{\rm IR}O_{\rm bulk}\rangle-\langle O_{\rm IR}\rangle\langle O_{\rm bulk}\rangle\stackrel{?}{\to}0,\qquad Z\stackrel{?}{\simeq}Z_{\rm IR}\,Z_{\rm bulk}.\]
+    <figcaption>One vanishing connected correlator is necessary, not sufficient, for factorization of the partition function.</figcaption>
+  </figure>
+  <div class="box caveat"><span class="box-label">What a power law does not show</span>
+    <p>A power-law eigenvalue density alone does not establish scale-invariant correlators of local gauge-invariant operators, a vanishing trace anomaly, or a decoupled IR sector.</p>
+  </div>
+
+  <h4>An analogy from disordered systems</h4>
+  <p>A chiral random-hopping model with logarithmically correlated (scale-free) disorder shows the density-of-states exponent driven toward \(-1\) as the disorder cutoff grows, \(\rho(E)\propto|E|^{p(W)}\) with \(p(W)\to-1\). This proves such spectra can arise from scale-free disorder; it is an existence example, not a derivation of QCD.</p>
+
+  <h4>Where would the transition be?</h4>
+  <p>For pure glue the speaker associates the IR onset with deconfinement; for physical-mass QCD, with a separate line above the chiral crossover (\(T_{\rm IR}\) of order 200 MeV). A spectral nonanalyticity need not imply a thermodynamic one.</p>
+  <div class="box spec"><span class="box-label">Status</span>
+    <p>A distinct IR phase with Anderson-like boundaries is an interesting but contested proposal. Measurements at two temperatures bracketing a change do not establish a discontinuity; that needs fine temperature resolution, infinite-volume scaling and a continuum limit.</p>
+  </div>
+
+  <section class="qa"><h4>Q&amp;A</h4>
+    <details><summary>Does \(d_{\rm eff}\) really jump from 3 to 2?</summary><div><p>A questioner argued intermediate temperatures could show a smooth evolution. The speaker cited results near 187 and 200 MeV bracketing the change, and agreed this does not prove a discontinuity between them.</p></div></details>
+    <details><summary>Does the result survive the continuum limit, and does the probe operator matter?</summary><div><p>The speaker noted that the probe operator need not match the sea-quark action, since it measures properties of the gauge ensemble. The audience stressed the need for a chiral probe (overlap) and controlled continuum behaviour; staggered-fermion work with collaborators was cited as support, without enough detail in the transcript to assess the extrapolation.</p></div></details>
+    <details><summary>What would be decisive?</summary><div><p>A nonanalytic infinite-volume continuum limit, ideally with independent scaling in gauge-invariant correlators or transport, beyond the spectral density itself.</p></div></details>
+  </section>
+  <div class="refs"><strong>Context</strong><ul><li>Banks–Casher (1980)</li><li>Anderson (1958), localization</li><li>Giordano, Kovács, Pittler (2010s), localization of low Dirac modes above \(T_c\)</li><li>Alexandru–Horváth (2019 onward), IR phase proposal</li></ul></div>
+</article>
+</section>
+
+<div class="empty" id="empty" role="status">
+  <p><strong>No talks match.</strong> Try a broader word, or clear the filters to see everything.</p>
+  <button class="linkbtn" type="button" data-clear>Clear search and filters</button>
+</div>
+
+<details class="howto" id="howto">
+  <summary>Adding a talk</summary>
+  <p>The sidebar, filters and search are built from the page itself, so a new talk only needs an <code>&lt;article&gt;</code> pasted inside the right conference <code>&lt;section&gt;</code>. Write equations in TeX between <code>\[ \]</code> or <code>\( \)</code>; escape <code>&lt;</code> as <code>&amp;lt;</code>.</p>
+<pre>&lt;article class="talk" id="short-id"
+  data-short="Sidebar label"
+  data-speaker="Speaker name"
+  data-status="est | pre | spec"
+  data-tags="Phase diagram,Lattice methods"&gt;
+  &lt;header class="talk-head"&gt;
+    &lt;h3&gt;Title&lt;/h3&gt;
+    &lt;div class="byline"&gt;&lt;span class="status s-est"&gt;Reported&lt;/span&gt;
+      &lt;time datetime="2026-11-12"&gt;12 Nov 2026&lt;/time&gt;&lt;span&gt;Conference&lt;/span&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;p class="gist"&gt;One-paragraph summary.&lt;/p&gt;
+  &lt;h4&gt;Section&lt;/h4&gt;
+  &lt;figure class="eq"&gt;\[ ... \]&lt;figcaption&gt;What each symbol means.&lt;/figcaption&gt;&lt;/figure&gt;
+  &lt;div class="box added"&gt;&lt;span class="box-label"&gt;Background (added)&lt;/span&gt;...&lt;/div&gt;
+  &lt;div class="box caveat"&gt;...&lt;/div&gt;  &lt;!-- also: take, spec --&gt;
+  &lt;section class="qa"&gt;&lt;h4&gt;Q&amp;amp;A&lt;/h4&gt;
+    &lt;details&gt;&lt;summary&gt;Question?&lt;/summary&gt;&lt;div&gt;&lt;p&gt;Answer.&lt;/p&gt;&lt;/div&gt;&lt;/details&gt;
+  &lt;/section&gt;
+&lt;/article&gt;</pre>
+  <p>A new conference is a <code>&lt;section class="conf" id="…" data-conf-short="…"&gt;</code> with the same heading block as the others.</p>
+</details>
+
+<footer class="foot"><p>Notes reconstructed from live transcription. Background boxes and context lists were added for readability and are not statements by the speakers.</p></footer>
+</div>
+</main>
+</div>
+<script>
+(function(){
+  const STATUS = { est:{label:'Reported or method', color:'var(--est)'}, pre:{label:'Preliminary or open', color:'var(--pre)'}, spec:{label:'Speculative or contested', color:'var(--spec)'} };
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const confs = $$('.conf');
+  const talks = $$('.talk');
+  const state = { q:'', status:new Set(), tags:new Set() };
+
+  // index: text for search, tags from data attribute
+  const index = talks.map(el => ({
+    el, id: el.id,
+    status: el.dataset.status,
+    tags: (el.dataset.tags || '').split(',').map(s => s.trim()).filter(Boolean),
+    text: el.textContent.toLowerCase().replace(/\s+/g,' ')
+  }));
+
+  // sidebar contents
+  const toc = $('#toc');
+  confs.forEach(c => {
+    const h = document.createElement('h2');
+    const a = document.createElement('a'); a.href = '#' + c.id; a.textContent = c.dataset.confShort || c.id;
+    h.appendChild(a); toc.appendChild(h);
+    const ol = document.createElement('ol');
+    $$('.talk', c).forEach(t => {
+      const li = document.createElement('li'); li.dataset.for = t.id;
+      const a2 = document.createElement('a'); a2.href = '#' + t.id;
+      a2.textContent = t.dataset.short || $('h3', t).textContent;
+      if (t.dataset.speaker){ const w = document.createElement('span'); w.className = 'who'; w.textContent = t.dataset.speaker; a2.appendChild(w); }
+      li.appendChild(a2); ol.appendChild(li);
+    });
+    toc.appendChild(ol);
+  });
+
+  // chips
+  function chip(label, onToggle, dot){
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed','false');
+    if (dot){ const d = document.createElement('span'); d.className = 'dot'; d.style.background = dot; b.appendChild(d); }
+    b.appendChild(document.createTextNode(label));
+    b.addEventListener('click', () => { const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); onToggle(on); apply(); });
+    return b;
+  }
+  Object.entries(STATUS).forEach(([k,v]) => $('#statusChips').appendChild(chip(v.label, on => on ? state.status.add(k) : state.status.delete(k), v.color)));
+  const allTags = [...new Set(index.flatMap(i => i.tags))].sort();
+  allTags.forEach(t => $('#tagChips').appendChild(chip(t, on => on ? state.tags.add(t) : state.tags.delete(t))));
+
+  // filtering
+  function apply(){
+    const terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    index.forEach(i => {
+      const ok = (!state.status.size || state.status.has(i.status))
+        && (!state.tags.size || i.tags.some(t => state.tags.has(t)))
+        && terms.every(w => i.text.includes(w));
+      i.el.classList.toggle('hidden', !ok);
+      const li = toc.querySelector('li[data-for="' + i.id + '"]'); if (li) li.classList.toggle('hidden', !ok);
+      if (ok) shown++;
+    });
+    confs.forEach(c => c.classList.toggle('hidden', !$$('.talk:not(.hidden)', c).length));
+    const filtered = terms.length || state.status.size || state.tags.size;
+    $('#count').textContent = filtered ? shown + ' of ' + index.length + ' talks' : index.length + ' talks';
+    $('#empty').classList.toggle('show', shown === 0);
+  }
+  let t;
+  $('#q').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { state.q = e.target.value; apply(); }, 120); });
+  function clearAll(){
+    state.q = ''; state.status.clear(); state.tags.clear(); $('#q').value = '';
+    $$('.chip').forEach(c => c.setAttribute('aria-pressed','false')); apply();
+  }
+  $('#clearFilters').addEventListener('click', clearAll);
+  $$('[data-clear]').forEach(b => b.addEventListener('click', clearAll));
+
+  // keyboard: "/" focuses search, Escape clears it
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); $('#q').focus(); }
+    if (e.key === 'Escape' && document.activeElement === $('#q')){ $('#q').value=''; state.q=''; apply(); }
+  });
+
+  // Q&A open/close all
+  const exp = $('#expandAll');
+  exp.addEventListener('click', () => {
+    const open = exp.dataset.open !== '1';
+    $$('.qa details').forEach(d => d.open = open);
+    exp.dataset.open = open ? '1' : '0';
+    exp.textContent = open ? 'Close all Q&A' : 'Open all Q&A';
+  });
+  window.addEventListener('beforeprint', () => $$('.qa details').forEach(d => d.open = true));
+
+  // current-talk highlight
+  const links = new Map($$('li[data-for] a', toc).map(a => [a.parentElement.dataset.for, a]));
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting){
+        links.forEach(a => a.removeAttribute('aria-current'));
+        const a = links.get(en.target.id); if (a) a.setAttribute('aria-current','true');
+      }});
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    talks.forEach(el => io.observe(el));
+  }
+
+  // mobile drawer
+  const side = $('#side'), openBtn = $('#openSide');
+  function setDrawer(open){ side.classList.toggle('open', open); openBtn.setAttribute('aria-expanded', String(open)); if (open) $('#q').focus({preventScroll:true}); }
+  openBtn.addEventListener('click', () => setDrawer(!side.classList.contains('open')));
+  toc.addEventListener('click', e => { if (e.target.closest('a')) setDrawer(false); });
+  document.addEventListener('click', e => { if (side.classList.contains('open') && !side.contains(e.target) && e.target !== openBtn) setDrawer(false); });
+
+  // deep links: #talk-id opens at that talk (also after math has rendered)
+  function goHash(){
+    const id = decodeURIComponent(location.hash.slice(1)); if (!id) return;
+    const el = document.getElementById(id); if (!el) return;
+    if (el.classList.contains('hidden')) clearAll();
+    el.scrollIntoView({ block:'start' });
+  }
+  window.addEventListener('hashchange', goHash);
+  goHash();
+  const waitMath = setInterval(() => {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise){ clearInterval(waitMath); MathJax.startup.promise.then(goHash); }
+  }, 200);
+  setTimeout(() => clearInterval(waitMath), 15000);
+
+  apply();
+})();
+</script>
+</body>
+</html>
